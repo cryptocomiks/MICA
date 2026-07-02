@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#050810">
+<title>Bonus MiCA 2026 — Jusqu'à 20 000 € à récupérer | CryptoComiks</title>
+<meta name="description" content="Les plateformes crypto agréées MiCA offrent des bonus records. OKX 8%, Kraken 1M€, Bybit 50€. Comparatif 100% indépendant par CryptoComiks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   DA premium fintech — sombre verrouillé, or champagne,
+   vert signal, bleu nuit profond. Inspiration Finary.
+   ===================================================== */
+:root{
+  color-scheme: dark;
+  --bg:#050810;
+  --bg-grad:radial-gradient(1200px 800px at 50% -10%, #0C1428 0%, #050810 55%);
+  --card:#0C1120;
+  --card2:#101830;
+  --card-hover:#141C33;
+  --line:rgba(148,168,220,.14);
+  --line-strong:rgba(148,168,220,.25);
+  --txt:#F6F8FD;
+  --muted:#96A2C0;
+  --gold:#E8C069;
+  --gold-hot:#F2CE7B;
+  --gold-deep:#C9A24C;
+  --gold-dim:rgba(232,192,105,.13);
+  --mint:#4AE3A0;
+  --mint-dim:rgba(74,227,160,.11);
+  --violet:#B49BFF;
+  --red:#FF7A7A;
+  --radius:20px;
+}
+@media (prefers-color-scheme: light){
+  :root{ color-scheme: dark; }
+  html, body{ background:#050810 !important; color:#F6F8FD !important; }
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:#050810}
+body{
+  background:var(--bg) !important;
+  background-image:var(--bg-grad) !important;
+  background-attachment:fixed;
+  color:var(--txt) !important;
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--gold);color:#050810}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+
+/* ===== CONFETTI CANVAS ===== */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:9999}
+
+/* ===== TICKER ===== */
+.ticker-wrap{
+  background:rgba(12,17,32,.85);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  overflow:hidden;white-space:nowrap;padding:10px 0;
+  position:sticky;top:0;z-index:50;
+}
+.ticker{
+  display:inline-block;animation:scroll 32s linear infinite;
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.05em;
+}
+.ticker span{margin:0 26px}
+.ticker .up{color:var(--mint)}
+.ticker .g{color:var(--gold)}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.ticker{animation:none}}
+
+/* ===== HERO ===== */
+.hero{padding:52px 0 30px;text-align:center;position:relative}
+.brand{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:30px;
+}
+.brand::before,.brand::after{content:'';width:36px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));opacity:.7}
+.brand::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.hero h1{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:clamp(32px,8vw,52px);line-height:1.06;letter-spacing:-.025em;margin-bottom:18px;
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(100deg, var(--gold-deep) 15%, var(--gold-hot) 45%, #FFF3D0 55%, var(--gold-hot) 65%, var(--gold-deep) 85%);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 4s linear infinite;
+}
+@keyframes shine{to{background-position:200% center}}
+.hero .sub{color:var(--muted);font-size:16px;max-width:560px;margin:0 auto 28px}
+.hero .sub b{color:var(--txt)}
+
+/* ===== INDÉPENDANCE ===== */
+.independence{
+  background:linear-gradient(165deg, rgba(74,227,160,.06), transparent 65%), var(--card);
+  border:1px solid rgba(74,227,160,.25);border-radius:var(--radius);
+  padding:22px 24px;margin:0 0 30px;text-align:left;
+}
+.independence .tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--mint-dim);color:var(--mint);
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 13px;border-radius:20px;margin-bottom:12px;
+}
+.independence p{color:var(--muted);font-size:14px;line-height:1.75}
+.independence p b{color:var(--txt)}
+.independence .signature{
+  margin-top:12px;font-family:'Space Grotesk',sans-serif;font-weight:600;
+  font-size:13px;color:var(--gold);
+}
+
+/* ===== VAULT — compteur à révéler ===== */
+.vault{
+  position:relative;border-radius:28px;margin-bottom:14px;
+  background:linear-gradient(170deg, #141E3A 0%, #0A101F 100%);
+  border:1px solid var(--line-strong);
+  box-shadow:0 20px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+  overflow:hidden;min-height:250px;
+}
+.vault::before{
+  content:'';position:absolute;top:-60%;left:-30%;width:160%;height:160%;
+  background:conic-gradient(from 20deg, transparent 0deg, rgba(232,192,105,.07) 80deg, transparent 160deg);
+  animation:rotate 10s linear infinite;pointer-events:none;
+}
+@keyframes rotate{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.vault::before{animation:none}}
+
+/* couverture cliquable */
+.vault-cover{
+  position:absolute;inset:0;z-index:5;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  background:rgba(8,12,24,.6);backdrop-filter:blur(14px);
+  cursor:pointer;border:none;width:100%;
+  color:var(--txt);font-family:'Inter',sans-serif;
+  transition:opacity .5s ease, transform .5s ease;
+}
+.vault-cover.open{opacity:0;transform:scale(1.06);pointer-events:none}
+.vault-cover .lock{
+  font-size:44px;
+  animation:wobble 2.2s ease-in-out infinite;
+  filter:drop-shadow(0 0 18px rgba(232,192,105,.5));
+}
+@keyframes wobble{0%,100%{transform:rotate(0)}8%{transform:rotate(-9deg)}16%{transform:rotate(8deg)}24%{transform:rotate(-5deg)}32%{transform:rotate(0)}}
+@media(prefers-reduced-motion:reduce){.vault-cover .lock{animation:none}}
+.vault-cover .cta-reveal{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;
+  background:linear-gradient(100deg, var(--gold-deep), var(--gold-hot), #FFF0C4);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 3s linear infinite;
+}
+.vault-cover .hint{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.vault-cover .hint .pulse{
+  width:7px;height:7px;border-radius:50%;background:var(--gold);
+  animation:blink 1.3s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(232,192,105,.5)}50%{opacity:.4;box-shadow:0 0 0 7px rgba(232,192,105,0)}}
+
+/* contenu du coffre */
+.vault-inner{padding:36px 24px 30px;text-align:center;position:relative}
+.counter-label{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:700}
+.counter{
+  font-family:'JetBrains Mono',monospace;font-weight:800;
+  font-size:clamp(46px,13vw,82px);line-height:1;color:var(--mint);
+  letter-spacing:-.04em;
+  text-shadow:0 0 48px rgba(74,227,160,.45);
+}
+.counter-sub{font-size:14px;color:var(--muted);margin-top:14px}
+.counter-sub b{color:var(--gold)}
+.counter-note{font-size:12px;color:var(--muted);margin-top:12px;opacity:.85}
+.euro-float{position:absolute;font-size:18px;opacity:0;pointer-events:none;animation:floatUp 4s ease-out infinite;color:var(--gold)}
+@keyframes floatUp{
+  0%{opacity:0;transform:translateY(0) scale(.6)}
+  15%{opacity:.75}
+  100%{opacity:0;transform:translateY(-150px) scale(1.15) rotate(18deg)}
+}
+@media(prefers-reduced-motion:reduce){.euro-float{display:none}}
+
+/* ===== TRUST BAR ===== */
+.trustbar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0 8px}
+.trust-item{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:15px 10px;text-align:center;font-size:12px;color:var(--muted);line-height:1.45;
+}
+.trust-item .ico{font-size:20px;display:block;margin-bottom:6px}
+.trust-item b{color:var(--txt);display:block;font-size:12.5px}
+
+.urgency{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:13px;font-weight:600;color:var(--red);margin:18px 0 8px;
+}
+.urgency .pulse-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--red);
+  animation:blinkred 1.2s ease-in-out infinite;
+}
+@keyframes blinkred{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,122,122,.5)}50%{opacity:.5;box-shadow:0 0 0 6px rgba(255,122,122,0)}}
+
+/* ===== REVEAL ===== */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease, transform .65s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* ===== SECTIONS ===== */
+.section-title{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:24px;
+  margin:56px 0 6px;display:flex;align-items:baseline;gap:10px;
+}
+.section-title .n{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold)}
+.section-sub{color:var(--muted);font-size:14px;margin-bottom:20px}
+.section-sub b{color:var(--txt)}
+
+/* ===== SCARCITY BAR OKX ===== */
+.scarcity{margin:14px 0 4px}
+.scarcity .bar{
+  height:9px;border-radius:20px;background:rgba(148,168,220,.12);overflow:hidden;position:relative;
+}
+.scarcity .fill{
+  height:100%;width:0;border-radius:20px;
+  background:linear-gradient(90deg, var(--gold-deep), var(--gold-hot));
+  box-shadow:0 0 14px rgba(232,192,105,.5);
+  transition:width 1.8s cubic-bezier(.22,1,.36,1);
+}
+.scarcity .lbl{
+  display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:7px;
+  font-family:'JetBrains Mono',monospace;
+}
+.scarcity .lbl b{color:var(--gold)}
+
+/* ===== CARDS ===== */
+.platform{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:18px;overflow:hidden;position:relative;
+}
+.platform.featured{border-color:rgba(232,192,105,.45);box-shadow:0 12px 50px rgba(232,192,105,.07), 0 20px 40px rgba(0,0,0,.3)}
+.platform.featured .p-head{background:linear-gradient(165deg, rgba(232,192,105,.08), transparent 60%)}
+.platform.hot{border-color:rgba(74,227,160,.4);box-shadow:0 12px 50px rgba(74,227,160,.06), 0 20px 40px rgba(0,0,0,.3)}
+.platform.hot .p-head{background:linear-gradient(165deg, rgba(74,227,160,.07), transparent 60%)}
+.ribbon{
+  position:absolute;top:15px;right:-38px;transform:rotate(38deg);
+  background:linear-gradient(90deg, var(--gold-deep), var(--gold-hot));color:#050810;
+  font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 44px;pointer-events:none;z-index:2;
+}
+.ribbon.green{background:linear-gradient(90deg, #2FCB87, var(--mint))}
+.p-head{padding:24px 20px 18px}
+.p-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px}
+.p-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.p-name .mica{
+  font-family:'Inter',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  background:var(--mint-dim);color:var(--mint);
+  padding:3px 8px;border-radius:6px;white-space:nowrap;
+}
+.p-badge{
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 11px;border-radius:20px;white-space:nowrap;flex-shrink:0;
+}
+.badge-gold{background:var(--gold-dim);color:var(--gold)}
+.badge-mint{background:var(--mint-dim);color:var(--mint)}
+.badge-grey{background:rgba(150,162,192,.12);color:var(--muted)}
+.p-gain{
+  font-family:'JetBrains Mono',monospace;font-weight:800;font-size:30px;
+  color:var(--mint);margin-bottom:6px;line-height:1.15;
+  text-shadow:0 0 28px rgba(74,227,160,.35);
+}
+.p-gain.gold-gain{color:var(--gold-hot);text-shadow:0 0 28px rgba(232,192,105,.35)}
+.p-gain small{font-size:14px;color:var(--muted);font-weight:500;font-family:'Inter',sans-serif;text-shadow:none;display:block;margin-top:3px}
+.p-desc{font-size:14px;color:var(--muted)}
+.p-desc b{color:var(--txt)}
+.p-desc .hl{color:var(--gold-hot);font-weight:700}
+.exclu{
+  background:var(--gold-dim);border:1px solid rgba(232,192,105,.3);
+  border-radius:12px;padding:12px 14px;margin-top:12px;
+  font-size:13px;color:var(--txt);line-height:1.6;
+}
+.exclu b{color:var(--gold-hot)}
+
+/* ===== ACCORDÉONS ===== */
+details{border-top:1px solid var(--line)}
+summary{
+  list-style:none;cursor:pointer;padding:16px 20px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:14px;font-weight:600;color:var(--txt);
+  transition:background .15s;user-select:none;
+}
+summary::-webkit-details-marker{display:none}
+summary:hover{background:var(--card-hover)}
+summary .chev{width:20px;height:20px;flex-shrink:0;color:var(--gold);transition:transform .25s ease}
+details[open] summary .chev{transform:rotate(180deg)}
+details[open] summary{color:var(--gold-hot);background:var(--card-hover)}
+.d-body{padding:6px 20px 20px;font-size:14px;color:var(--muted)}
+.d-body ul{list-style:none;margin:10px 0}
+.d-body li{padding:8px 0 8px 24px;position:relative;border-bottom:1px solid rgba(148,168,220,.08)}
+.d-body li:last-child{border:none}
+.d-body li::before{content:'→';position:absolute;left:0;color:var(--gold);font-weight:700}
+.d-body b,.d-body strong{color:var(--txt)}
+.d-body .big-num{color:var(--mint);font-family:'JetBrains Mono',monospace;font-weight:700}
+.d-body .warn{
+  background:rgba(255,122,122,.08);border-left:3px solid var(--red);
+  padding:11px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:13px;
+}
+.d-body .tip{
+  background:var(--mint-dim);border-left:3px solid var(--mint);
+  padding:11px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:13px;
+}
+.steps{counter-reset:step;margin:10px 0}
+.steps li{counter-increment:step;padding-left:36px}
+.steps li::before{
+  content:counter(step);left:0;top:9px;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--gold-dim);color:var(--gold);
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ===== CTA ===== */
+.p-cta{padding:16px 20px 22px;border-top:1px solid var(--line)}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:17px;border-radius:16px;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;
+  text-decoration:none;position:relative;overflow:hidden;
+  transition:transform .15s, box-shadow .2s;
+}
+.btn:active{transform:scale(.97)}
+.btn-gold{
+  background:linear-gradient(100deg, var(--gold-deep), var(--gold-hot), #FFF0C4, var(--gold-hot), var(--gold-deep));
+  background-size:250% auto;color:#050810;
+  box-shadow:0 8px 32px rgba(232,192,105,.35);
+  animation:btnshine 4.5s linear infinite;
+}
+@keyframes btnshine{to{background-position:250% center}}
+.btn-gold:hover{box-shadow:0 10px 42px rgba(232,192,105,.55);transform:translateY(-1px)}
+.btn-mint{
+  background:linear-gradient(100deg, #2FCB87, var(--mint), #A6FFD6, var(--mint), #2FCB87);
+  background-size:250% auto;color:#050810;
+  box-shadow:0 8px 32px rgba(74,227,160,.3);
+  animation:btnshine 4.5s linear infinite;
+}
+.btn-mint:hover{box-shadow:0 10px 42px rgba(74,227,160,.5);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--txt);border:1.5px solid var(--line-strong)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold-hot)}
+.cta-trust{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:11px;color:var(--muted)}
+.cta-trust span{display:flex;align-items:center;gap:4px}
+.aff-note{font-size:11px;color:var(--muted);text-align:center;margin-top:8px;opacity:.65}
+
+/* ===== 1M ===== */
+.million{
+  font-family:'JetBrains Mono',monospace;font-weight:800;
+  font-size:clamp(28px,8vw,44px);
+  background:linear-gradient(100deg, var(--violet), #EFE4FF, var(--violet));
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 3s linear infinite;
+  display:inline-block;letter-spacing:-.02em;
+}
+
+/* ===== TABLE ===== */
+.fees-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+.fees-table th{
+  text-align:left;padding:10px 12px;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line-strong);font-weight:700;
+}
+.fees-table td{padding:12px;border-bottom:1px solid rgba(148,168,220,.08)}
+.fees-table tr:last-child td{border:none}
+.fees-table .used{color:var(--mint);font-weight:700}
+.fees-table .fee-hi{color:var(--red)}
+.fees-table .mono{font-family:'JetBrains Mono',monospace;font-size:13px}
+.legend{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.7}
+.legend b{color:var(--txt)}
+
+/* ===== FOOTER ===== */
+.disclaimer{
+  border-top:1px solid var(--line);margin-top:64px;padding:30px 0 56px;
+  font-size:12px;color:var(--muted);line-height:1.75;
+}
+.disclaimer p{margin-bottom:11px}
+.footer-brand{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;
+}
+
+@media(max-width:480px){
+  .p-gain{font-size:24px}
+  .fees-table th,.fees-table td{padding:9px 8px;font-size:13px}
+  .trustbar{gap:8px}
+  .trust-item{padding:12px 8px;font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="g">🔥 OKX · cagnotte officielle montée à 50 M€</span><span class="up">▲ 8 % sur dépôt — du jamais-vu</span><span class="g">💰 Kraken · tirage 1 000 000 €</span><span class="up">▲ Bybit · 50 € offerts dès 100 € déposés</span><span class="g">🔒 Plateformes 100 % agréées MiCA</span><span class="up">▲ Coinbase · +5 % de transfert</span><span class="g">⏳ Stock limité · premier arrivé, premier servi</span>
+    <span class="g">🔥 OKX · cagnotte officielle montée à 50 M€</span><span class="up">▲ 8 % sur dépôt — du jamais-vu</span><span class="g">💰 Kraken · tirage 1 000 000 €</span><span class="up">▲ Bybit · 50 € offerts dès 100 € déposés</span><span class="g">🔒 Plateformes 100 % agréées MiCA</span><span class="up">▲ Coinbase · +5 % de transfert</span><span class="g">⏳ Stock limité · premier arrivé, premier servi</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="brand">CryptoComiks</div>
+  <h1>Les plateformes se battent pour vous.<br><em>Encaissez.</em></h1>
+  <p class="sub">Depuis le 1er juillet, seules les plateformes <b>agréées MiCA 🔒</b> peuvent opérer en Europe. Elles déversent des <b>dizaines de millions d'euros de bonus</b> pour capter les clients orphelins de Binance. On a tout vérifié, ligne par ligne, pour que vous récupériez le maximum.</p>
+
+  <!-- INDÉPENDANCE -->
+  <div class="independence">
+    <span class="tag">🤝 Notre engagement</span>
+    <p><b>Aucune des marques ci-dessous n'a payé pour apparaître sur cette page.</b> On travaille régulièrement avec des plateformes — mais ici, on a volontairement choisi de n'être en collaboration avec personne. Sur un moment aussi important que la bascule MiCA, on voulait pouvoir vous dire les choses clairement et simplement, sans être tenus par le moindre contrat. Ce qui suit, c'est notre liste. Objective. La vraie.</p>
+    <div class="signature">— L'équipe CryptoComiks</div>
+  </div>
+
+  <!-- LE COFFRE À RÉVÉLER -->
+  <div class="vault" id="vault">
+    <button class="vault-cover" id="vaultCover" aria-label="Cliquer pour révéler le montant total des bonus">
+      <span class="lock">🔐</span>
+      <span class="cta-reveal">Touchez pour révéler votre potentiel</span>
+      <span class="hint"><span class="pulse"></span>Combien pouvez-vous récupérer en ce moment ?</span>
+    </button>
+    <div class="vault-inner" id="counterBox">
+      <div class="counter-label">💎 Bonus max récupérable en ce moment*</div>
+      <div class="counter" id="counter">0 €</div>
+      <div class="counter-sub">jusqu'à <b>20 000 € sur OKX seul</b> · dès 1 300 € mobilisés : <b>+150 € garantis</b> · <b>+ 1 M€</b> en jeu chez Kraken</div>
+      <div class="counter-note">*Vos cryptos restent à vous. Vous les déposez, vous ne les dépensez pas. Les bonus tombent par-dessus.</div>
+    </div>
+  </div>
+
+  <!-- TRUST BAR -->
+  <div class="trustbar">
+    <div class="trust-item"><span class="ico">🔒</span><b>Agréées MiCA</b>Régulées par l'UE, actifs clients séparés</div>
+    <div class="trust-item"><span class="ico">✅</span><b>Sources vérifiées</b>Conditions officielles lues ligne par ligne</div>
+    <div class="trust-item"><span class="ico">🛡️</span><b>Vos cryptos à vous</b>Rien n'est dépensé, tout reste vôtre</div>
+  </div>
+
+  <div class="urgency"><span class="pulse-dot"></span>Cagnottes limitées · premier arrivé, premier servi · échéances 13-31 juillet</div>
+</header>
+
+<!-- ============ TOP OFFRES ============ -->
+<h2 class="section-title reveal"><span class="n">01</span> Les trois offres à faire absolument</h2>
+<p class="section-sub reveal">Nos recommandations fortes. <b>On a nous-mêmes déposé une jolie somme sur OKX</b> — et voici pourquoi.</p>
+
+<!-- OKX -->
+<div class="platform featured reveal">
+  <div class="ribbon">Exceptionnel</div>
+  <div class="p-head">
+    <div class="p-top">
+      <span class="p-name">OKX <span class="mica">🔒 MiCA</span></span>
+      <span class="p-badge badge-gold">★ Notre n°1 absolu</span>
+    </div>
+    <div class="p-gain gold-gain"><span class="countup" data-target="20000" data-prefix="Jusqu'à " data-suffix=" €">Jusqu'à 0 €</span><small>de bonus. Vous avez bien lu. Vingt. Mille. Euros.</small></div>
+    <p class="p-desc"><b>Personne ne donne 8 %. Personne.</b> Ni votre banque, ni votre livret, ni aucun autre exchange. Et là, OKX le fait — <span class="hl">contractuellement, écrit noir sur blanc</span> dans les conditions officielles, sur une plateforme agréée MiCA (MFSA, Malte). Pour situer : le CAC 40, une <em>bonne</em> année, c'est ~9 %, sans aucune garantie. Nous, on l'a déjà fait. Sans hésiter.</p>
+    <div class="exclu">⚡ <b>Stock strictement limité :</b> la cagnotte initiale de 10 M€ a été engloutie en quelques jours. Le CEO l'a montée à <b>50 M€</b> le 1er juillet*. Premier arrivé, premier servi — une fois le stock épuisé, la campagne s'arrête, même avant la date de fin.</div>
+    <!-- Barre de rareté -->
+    <div class="scarcity">
+      <div class="bar"><div class="fill" data-width="24%"></div></div>
+      <div class="lbl"><span>Cagnotte réclamée à ce jour**</span><b>50 M€ au total</b></div>
+    </div>
+  </div>
+
+  <details>
+    <summary>💰 Combien vous touchez exactement <svg class="chev" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
+    <div class="d-body">
+      <p>Le taux grimpe avec votre dépôt net pendant la campagne :</p>
+      <ul>
+        <li><span class="big-num">5 %</span> de 10 € à 10 000 $ de dépôt</li>
+        <li><span class="big-num">6 %</span> de 10 001 $ à 100 000 $</li>
+        <li><span class="big-num">8 %</span> au-delà, jusqu'à 250 000 € — bonus max : <span class="big-num">20 000 €</span></li>
+      </ul>
+      <p>Concrètement : 1 000 € déposés → <span class="big-num">~50 €</span>. 10 000 € → <span class="big-num">~500-600 €</span>. 150 000 € → <span class="big-num">12 000 €</span>. 250 000 € → <span class="big-num">20 000 €</span>.</p>
+      <div class="tip">💡 Le bonus se calcule sur le <b>dépôt net</b> (dépôts − retraits). Cryptos transférées depuis un wallet, une autre plateforme, virements SEPA, CB : tout compte.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>📋 Les conditions à connaître <svg class="chev" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
+    <div class="d-body">
+      <ul>
+        <li>Campagne du <b>29 juin au 31 juillet 2026</b> — ou avant, si les 50 M€ sont épuisés</li>
+        <li>Résidents de l'EEE (France ✓), KYC avancé obligatoire</li>
+        <li>Inscription <b>uniquement via l'application mobile</b> : cliquez sur « Opt-in » AVANT de déposer</li>
+        <li>Versement en <b>USDC, en 26 fois sur 52 semaines</b> (tous les 15 jours à partir du 3 août 2026)</li>
+        <li>Cerise : jusqu'à <b>400 € en BTC</b> en plus pour les nouveaux comptes via des missions dans l'app</li>
+      </ul>
+      <div class="warn">⚠️ Si vous retirez vos fonds pendant les 52 semaines de versement, les paiements restants sont réduits ou annulés. Un transfert vers OKX Pay compte comme un retrait. Les fonds déjà présents avant l'opt-in ne comptent pas.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🚀 Comment en profiter, étape par étape <svg class="chev" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
+    <div class="d-body">
+      <ul class="steps">
+        <li>Créez votre compte via le bouton ci-dessous, puis téléchargez l'app OKX (iOS/Android)</li>
+        <li>Complétez la vérification d'identité (KYC avancé) — 5 à 10 minutes 🔒</li>
+        <li>Dans l'app, trouvez la campagne « Deposit Bonus » et cliquez sur <b>Opt-in</b></li>
+        <li>Déposez vos cryptos ou euros (minimum 10 €)</li>
+        <li>Laissez tout en place : les USDC tombent tous les 15 jours pendant 1 an 💸</li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="p-cta">
+    <a class="btn btn-gold cta-confetti" href="https://my.okx.com/fr-fr/join/97996524" target="_blank" rel="noopener">🔥 Réclamer ma part des 50 M€ →</a>
+    <div class="cta-trust"><span>🔒 Agréée MiCA (MFSA)</span><span>⚡ Compte en 10 min</span><span>🛡️ Preuves de réserves</span></div>
+    <p class="aff-note">Lien d'affiliation — zéro surcoût, soutient CryptoComiks</p>
+  </div>
+</div>
+
+<!-- KRAKEN -->
+<div class="platform featured reveal">
+  <div class="p-head">
+    <div class="p-top">
+      <span class="p-name">Kraken <span class="mica">🔒 MiCA</span></span>
+      <span class="p-badge badge-gold">★ Notre n°2</span>
+    </div>
+    <div style="margin:4px 0 10px"><span class="million countup-raw" data-target="1000000" data-suffix=" €">0 €</span></div>
+    <div class="p-gain"><span class="countup" data-target="15" data-prefix="" data-suffix=" € garantis">0 € garantis</span><small>+ 1 ticket pour le million par euro déposé</small></div>
+    <p class="p-desc">Deux offres <b>cumulables</b> : un bonus fixe ultra-simple (le plus rapide du marché), et un vrai tirage au sort à un million d'euros — chaque euro déposé = une chance de plus. Kraken sert l'Europe depuis 2011, agréée MiCA via la Banque centrale d'Irlande.</p>
+  </div>
+
+  <details>
+    <summary>💰 Offre 1 : les 15 € garantis en 10 minutes <svg class="chev" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
+    <div class="d-body">
+      <p>La technique la moins contraignante qui existe :</p>
+      <ul class="steps">
+        <li>Créez un compte Kraken (nouveaux clients), vérification KYC intermédiaire 🔒</li>
+        <li>Déposez <b>100 € minimum</b></li>
+        <li>Tradez <b>100 €</b> sur une crypto (hors stablecoin) dans les 30 jours — un simple achat de BTC suffit</li>
+        <li>Recevez <span class="big-num">15 € en BTC</span> sous 30 jours</li>
+      </ul>
+      <div class="tip">💡 Vos 100 € ne sont pas dépensés : vous achetez du BTC avec, il reste à vous. Le bonus, c'est du pur cadeau par-dessus.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🎰 Offre 2 : le tirage au sort à 1 000 000 € <svg class="chev" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
+    <div class="d-body">
+      <ul>
+        <li>Du <b>19 juin au 31 juillet 2026</b>, chaque 1 € déposé (crypto ou fiat) = <span class="big-num">1 participation</span></li>
+        <li><b>Un seul gagnant</b>, payé <b>1 000 000 € cash, en euros</b></li>
+        <li>⚠️ Il faut <b>s'inscrire à la promo AVANT de déposer</b> (bannière « Offres » dans l'app) — les dépôts d'avant ne comptent pas</li>
+        <li>Ouvert aux clients nouveaux ET existants de l'EEE</li>
+        <li>Le trading ne génère pas de tickets : seuls les dépôts comptent</li>
+      </ul>
+      <div class="warn">Soyons clairs avec vous : c'est une loterie, pas un gain garanti. Ne déposez jamais plus que prévu juste pour des tickets. Mais si vous migrez de toute façon vos cryptos, autant que chaque euro compte double.</div>
+    </div>
+  </details>
+
+  <div class="p-cta">
+    <a class="btn btn-gold cta-confetti" href="https://kraken.pxf.io/c/7141348/3439310/10583" target="_blank" rel="noopener">💰 Tenter le million + 15 € garantis →</a>
+    <div class="cta-trust"><span>🔒 Agréée MiCA (Irlande)</span><span>🏛️ En Europe depuis 2011</span></div>
+    <p class="aff-note">Lien d'affiliation — zéro surcoût, soutient CryptoComiks</p>
+  </div>
+</div>
+
+<!-- BYBIT -->
+<div class="platform hot reveal">
+  <div class="ribbon green">Tout le monde devrait</div>
+  <div class="p-head">
+    <div class="p-top">
+      <span class="p-name">Bybit EU <span class="mica">🔒 MiCA</span></span>
+      <span class="p-badge badge-mint">⚡ 50 % de retour immédiat</span>
+    </div>
+    <div class="p-gain"><span class="countup" data-target="50" data-prefix="" data-suffix=" € offerts">0 € offerts</span><small>pour seulement 100 € déposés. Littéralement du gâteau.</small></div>
+    <p class="p-desc"><b>Celle-là, tout le monde devrait la faire</b>, en même temps que tout le reste. Déposer 100 € et recevoir 50 € en Bitcoin, c'est le meilleur ratio bonus/effort du marché — <span class="hl">50 % de retour instantané</span>. Ça prend 15 minutes, sur une plateforme agréée MiCA (FMA, Autriche).</p>
+  </div>
+
+  <details>
+    <summary>📋 Conditions & bonus cumulables <svg class="chev" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
+    <div class="d-body">
+      <ul>
+        <li>Campagne « Move Your Funds » du <b>19 juin au 30 septembre 2026</b></li>
+        <li>Réservé aux <b>nouveaux</b> comptes Bybit EU, résidents EEE (justificatif de domicile requis pour l'offre France)</li>
+        <li><span class="big-num">50 € en BTC</span> : déposez 100 € (euros ou cryptos) + tradez 1 € de crypto — validez les tâches dans le Rewards Hub</li>
+        <li>Parrainage : <span class="big-num">50 €</span> par ami invité, jusqu'à 20 filleuls (soit 1 000 € possibles)</li>
+        <li>Bybit Card : jusqu'à <b>120 € de bonus</b> + remboursement d'un abonnement le 1er mois (Netflix, Spotify, ChatGPT…), max 50 €</li>
+        <li>Cashback annualisé jusqu'à 10 % sur solde crypto selon niveau VIP — versé en USDC chaque semaine, 52 semaines</li>
+      </ul>
+      <div class="warn">Le cashback VIP a un budget global limité (premier arrivé, premier servi) et exige un volume de trading minimum. Vérifiez les conditions exactes dans l'app avant de compter dessus.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🚀 Étape par étape <svg class="chev" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
+    <div class="d-body">
+      <ul class="steps">
+        <li>Créez votre compte Bybit EU via le bouton ci-dessous</li>
+        <li>Validez votre identité (KYC) + justificatif de domicile France 🔒</li>
+        <li>Déposez 100 € minimum (SEPA, CB, Apple Pay, Google Pay ou cryptos)</li>
+        <li>Tradez 1 € de crypto (n'importe laquelle)</li>
+        <li>Activez les récompenses dans le <b>Rewards Hub</b> → 50 € en BTC crédités 🎉</li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="p-cta">
+    <a class="btn btn-mint cta-confetti" href="https://partner.bybit.eu/b/152979" target="_blank" rel="noopener">⚡ Récupérer mes 50 € maintenant →</a>
+    <div class="cta-trust"><span>🔒 Agréée MiCA (FMA Autriche)</span><span>⚡ 15 minutes chrono</span></div>
+    <p class="aff-note">Lien d'affiliation — zéro surcoût, soutient CryptoComiks</p>
+  </div>
+</div>
+
+<!-- ============ COMPLÉMENTS ============ -->
+<h2 class="section-title reveal"><span class="n">02</span> Les compléments intéressants</h2>
+<p class="section-sub reveal">À ajouter si vous voulez tout optimiser.</p>
+
+<!-- COINBASE -->
+<div class="platform reveal">
+  <div class="p-head">
+    <div class="p-top">
+      <span class="p-name">Coinbase <span class="mica">🔒 MiCA</span></span>
+      <span class="p-badge badge-grey">Correct, mais conditions</span>
+    </div>
+    <div class="p-gain">+5 % <small>de bonus de transfert — mais Coinbase One requis</small></div>
+    <p class="p-desc">Offre lancée en urgence après le retrait de Binance. Intéressante sur gros transfert, mais l'abonnement obligatoire et les frais élevés grignotent le gain.</p>
+  </div>
+
+  <details>
+    <summary>📋 Conditions (lisez bien) <svg class="chev" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
+    <div class="d-body">
+      <ul>
+        <li>5 % de bonus sur les cryptos transférées entre le <b>26 juin et le 13 juillet 2026</b></li>
+        <li>Réservé : France, Allemagne, Italie, Espagne, Pologne, Belgique, Suède, Royaume-Uni</li>
+        <li>⚠️ Nécessite un abonnement <b>Coinbase One</b> actif — s'il expire, le bonus peut être repris</li>
+        <li>Il faut <b>garder les actifs sur Coinbase</b> pendant la période du bonus</li>
+        <li>Versement à partir du 14 juillet 2026</li>
+      </ul>
+      <div class="warn">Nos réserves : frais de trading parmi les plus élevés du marché (0,6 % / 1,2 % en Advanced), et bonus conditionné à un abonnement payant. Faites le calcul avant.</div>
+    </div>
+  </details>
+
+  <div class="p-cta">
+    <a class="btn btn-outline" href="https://advanced.coinbase.com/join/TTZ8MDV" target="_blank" rel="noopener">Voir l'offre Coinbase →</a>
+    <p class="aff-note">Lien d'affiliation — zéro surcoût, soutient CryptoComiks</p>
+  </div>
+</div>
+
+<!-- REVOLUT -->
+<div class="platform reveal">
+  <div class="p-head">
+    <div class="p-top">
+      <span class="p-name">Revolut</span>
+      <span class="p-badge badge-grey">Le couteau suisse</span>
+    </div>
+    <div class="p-gain">0 % / 0,09 % <small>les frais de trading les plus bas du comparatif</small></div>
+    <p class="p-desc">Pas de bonus de dépôt crypto en cours, mais des frais imbattables et une carte pratique au quotidien. Parfait comme compte satellite. Banque agréée en UE (licence bancaire lituanienne, dépôts fiat garantis jusqu'à 100 000 € — la garantie ne couvre pas les cryptos).</p>
+  </div>
+
+  <details>
+    <summary>📋 Ce qu'il faut savoir <svg class="chev" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
+    <div class="d-body">
+      <ul>
+        <li>250+ cryptos accessibles dès 1 €, directement depuis l'app bancaire</li>
+        <li>Frais spot les plus bas du marché : <span class="big-num">0 % / 0,09 %</span></li>
+        <li>Seule offre active : le parrainage bancaire classique (montant variable selon campagne)</li>
+        <li>Idéal comme porte d'entrée simple ; moins adapté au trading sérieux (spreads, retraits on-chain limités)</li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="p-cta">
+    <a class="btn btn-outline" href="https://revolut.com/referral/?referral-code=ksnsnn9zp!JUL1-26-AR-H1&geo-redirect" target="_blank" rel="noopener">Découvrir Revolut →</a>
+    <p class="aff-note">Lien d'affiliation — zéro surcoût, soutient CryptoComiks</p>
+  </div>
+</div>
+
+<!-- ============ FRAIS ============ -->
+<h2 class="section-title reveal"><span class="n">03</span> Le comparatif des frais</h2>
+<p class="section-sub reveal">Le bonus, c'est bien. Les frais que vous payez ensuite à chaque trade, c'est ce qui compte sur la durée. <b style="color:var(--mint)">En vert : celles qu'on utilise.</b></p>
+
+<div class="platform reveal">
+  <div class="d-body" style="padding-top:18px">
+    <table class="fees-table">
+      <thead><tr><th>Plateforme</th><th>Frais spot</th><th>Notre avis</th></tr></thead>
+      <tbody>
+        <tr><td class="used">Revolut</td><td class="mono">0 % / 0,09 %</td><td>✓ Utilisée</td></tr>
+        <tr><td class="used">OKX</td><td class="mono">0,08 % / 0,1 %</td><td>✓ Utilisée</td></tr>
+        <tr><td>Gate</td><td class="mono">0,1 % / 0,1 %</td><td>—</td></tr>
+        <tr><td class="used">Bybit EU</td><td class="mono">0,1 % / 0,3 %</td><td>✓ Utilisée</td></tr>
+        <tr><td>Bitvavo</td><td class="mono">0,2 % / 0,3 %</td><td>—</td></tr>
+        <tr><td>Blockchain.com</td><td class="mono">0,2 % / 0,4 %</td><td>—</td></tr>
+        <tr><td>Bitpanda</td><td class="mono">0,3 % / 0,3 %</td><td>—</td></tr>
+        <tr><td class="used">Kraken</td><td class="mono">0,3 % / 0,4 %</td><td>✓ Utilisée</td></tr>
+        <tr><td>Bitstamp</td><td class="mono">0,3 % / 0,4 %</td><td>—</td></tr>
+        <tr><td>Crypto.com</td><td class="mono">0,3 % / 0,5 %</td><td>—</td></tr>
+        <tr><td>Robinhood</td><td class="mono fee-hi">0,5 %</td><td>Frais élevés</td></tr>
+        <tr><td>Bit2Me</td><td class="mono fee-hi">0,5 % / 0,6 %</td><td>Frais élevés</td></tr>
+        <tr><td class="used">Coinbase</td><td class="mono fee-hi">0,6 % / 1,2 %</td><td>✓ Utilisée, mais chère</td></tr>
+        <tr><td>eToro</td><td class="mono fee-hi">1 %</td><td>Frais élevés</td></tr>
+        <tr><td>Swissquote</td><td class="mono fee-hi">1 % / 1 %</td><td>Frais élevés</td></tr>
+      </tbody>
+    </table>
+    <p class="legend">🔴 Au-delà de 0,5 %, méfiance : sur 10 000 € tradés, la différence entre 0,1 % et 1 % = <b>90 € perdus par aller-retour</b>. Attention aussi aux frais cachés (spreads, conversion fiat) que les grilles officielles ne montrent pas.</p>
+  </div>
+</div>
+
+<!-- ============ PLAN D'ACTION ============ -->
+<h2 class="section-title reveal"><span class="n">04</span> Le plan d'action — faites les 3, dans cet ordre</h2>
+<p class="section-sub reveal">Notre conseil, très très fort : <b>ouvrez les trois comptes principaux.</b> Chacun a sa raison d'être, et rien ne s'exclut.</p>
+
+<div class="platform reveal">
+  <div class="d-body" style="padding-top:18px">
+    <ul class="steps">
+      <li><b style="color:var(--gold-hot)">OKX d'abord — c'est là que ça se joue.</b> Personne d'autre ne donne 8 %. Un bonus contractuel de 5 à 8 % sur dépôt, versé sur une plateforme encadrée par MiCA 🔒. Le CAC 40, une bonne année, c'est ~9 % — sans garantie. Ici, le taux est écrit dans les conditions officielles. Opt-in dans l'app AVANT de déposer. Nous, on l'a déjà fait. Faites-le sans hésitation, la cagnotte de 50 M€ fondra aussi vite que la première.</li>
+      <li><b style="color:var(--gold-hot)">Kraken ensuite — le combo garanti + jackpot.</b> 15 € assurés pour 100 € déposés + 100 € tradés, et chaque euro déposé vous donne un ticket pour le million. Inscrivez-vous à la promo avant tout dépôt.</li>
+      <li><b style="color:var(--mint)">Bybit — littéralement du gâteau.</b> 50 € en BTC pour 100 € déposés, c'est 50 % de retour immédiat. Il n'existe aucune raison de ne pas le faire si vous n'avez jamais eu de compte Bybit EU.</li>
+      <li><b>Coinbase et Revolut en bonus</b> si vous voulez tout optimiser : le 5 % de transfert (si vous avez déjà Coinbase One) et les frais imbattables de Revolut pour les petits trades du quotidien.</li>
+      <li>⏳ <b>Toutes les échéances tombent entre le 13 et le 31 juillet</b> pour OKX, Kraken et Coinbase. Ne remettez pas ça à la semaine prochaine : les cagnottes sont premier arrivé, premier servi.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="disclaimer">
+  <div class="footer-brand">CryptoComiks</div>
+  <p>*Le compteur affiche le bonus maximum de la campagne OKX (20 000 € pour 250 000 € de dépôt net). Les montants réels dépendent de vos dépôts, des conditions de chaque plateforme et de la disponibilité des cagnottes (premier arrivé, premier servi). Pour ~1 300 € mobilisés, les bonus garantis cumulables sont d'environ 150 € (OKX palier 1 + Kraken 15 € + Bybit 50 €). Le tirage Kraken à 1 M€ est une loterie : un seul gagnant, aucun gain garanti.</p>
+  <p>**La barre de progression de la cagnotte OKX est une illustration indicative : OKX ne publie pas en temps réel le montant réclamé. Augmentation de la cagnotte de 10 M€ à 50 M€ : annonce officielle OKX du 1er juillet 2026 sur X. Informations vérifiées au 2 juillet 2026 sur les pages officielles des plateformes (okx.com, kraken.com, bybit.eu, coinbase.com). Les conditions peuvent évoluer à tout moment : vérifiez toujours la page officielle de l'offre avant de déposer.</p>
+  <p>🔒 L'agrément MiCA impose la séparation des actifs clients, des réserves de capital et un contrôle par un régulateur européen — mais il ne signifie pas « sans risque » : la valeur de vos cryptos fluctue, et aucune garantie des dépôts de type bancaire ne s'applique aux crypto-actifs. « Personne ne donne 8 % » se réfère aux bonus de dépôt des plateformes comparées ici à date de publication.</p>
+  <p>Certains liens de cette page sont des liens d'affiliation : CryptoComiks perçoit une commission si vous ouvrez un compte via ces liens, sans aucun surcoût pour vous. Aucune plateforme n'a commandé, payé ou relu ce contenu.</p>
+  <p>L'investissement dans les crypto-actifs présente un risque de perte en capital totale ou partielle. Les performances passées ne préjugent pas des performances futures. N'investissez que ce que vous êtes prêt à perdre. Ceci n'est pas un conseil en investissement.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fmt = n => n.toLocaleString('fr-FR');
+
+  /* ============================================================
+     CONFETTIS — canvas maison, léger, or/vert/blanc
+     ============================================================ */
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let raf = null;
+  function resize(){ canvas.width = innerWidth * devicePixelRatio; canvas.height = innerHeight * devicePixelRatio; ctx.scale(devicePixelRatio, devicePixelRatio); }
+  resize(); addEventListener('resize', resize);
+
+  const COLORS = ['#E8C069','#F2CE7B','#FFF0C4','#4AE3A0','#A6FFD6','#FFFFFF','#B49BFF'];
+  function burst(x, y, count){
+    if(reduced) return;
+    for(let i=0;i<count;i++){
+      const angle = Math.random()*Math.PI*2;
+      const speed = 5 + Math.random()*9;
+      particles.push({
+        x, y,
+        vx: Math.cos(angle)*speed,
+        vy: Math.sin(angle)*speed - 4,
+        w: 5 + Math.random()*6,
+        h: 3 + Math.random()*5,
+        rot: Math.random()*Math.PI*2,
+        vr: (Math.random()-.5)*.3,
+        color: COLORS[Math.floor(Math.random()*COLORS.length)],
+        life: 1,
+        decay: .008 + Math.random()*.012,
+        shape: Math.random() > .7 ? 'circle' : 'rect'
+      });
+    }
+    if(!raf) loop();
+  }
+  function loop(){
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    particles = particles.filter(p => p.life > 0);
+    for(const p of particles){
+      p.vy += .18;          // gravité
+      p.vx *= .985;
+      p.x += p.vx; p.y += p.vy;
+      p.rot += p.vr;
+      p.life -= p.decay;
+      ctx.save();
+      ctx.globalAlpha = Math.max(p.life, 0);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      if(p.shape === 'circle'){
+        ctx.beginPath(); ctx.arc(0, 0, p.w/2, 0, Math.PI*2); ctx.fill();
+      } else {
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      }
+      ctx.restore();
+    }
+    if(particles.length){ raf = requestAnimationFrame(loop); }
+    else { raf = null; ctx.clearRect(0,0,innerWidth,innerHeight); }
+  }
+
+  /* ============================================================
+     LE COFFRE — clic pour révéler + confettis + compteur
+     ============================================================ */
+  const cover = document.getElementById('vaultCover');
+  const counterEl = document.getElementById('counter');
+  const TARGET = 20000;
+  let opened = false;
+
+  function runMainCounter(){
+    if(reduced){ counterEl.textContent = fmt(TARGET) + ' €'; return; }
+    const dur = 2600, start = performance.now();
+    requestAnimationFrame(function tick(now){
+      const p = Math.min((now - start)/dur, 1);
+      const eased = 1 - Math.pow(1-p, 4);
+      counterEl.textContent = fmt(Math.round(eased * TARGET)) + ' €';
+      if(p < 1) requestAnimationFrame(tick);
+    });
+  }
+
+  cover.addEventListener('click', () => {
+    if(opened) return; opened = true;
+    cover.classList.add('open');
+    const r = cover.getBoundingClientRect();
+    // triple burst pour l'effet jackpot
+    burst(r.left + r.width/2, r.top + r.height/2, 90);
+    setTimeout(() => burst(r.left + r.width*.25, r.top + r.height*.4, 50), 180);
+    setTimeout(() => burst(r.left + r.width*.75, r.top + r.height*.4, 50), 360);
+    setTimeout(runMainCounter, 250);
+    // € flottants en continu après ouverture
+    if(!reduced){
+      const box = document.getElementById('counterBox');
+      const symbols = ['€','💰','✦','🔒','€'];
+      setInterval(() => {
+        const s = document.createElement('span');
+        s.className = 'euro-float';
+        s.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+        s.style.left = (10 + Math.random()*80) + '%';
+        s.style.bottom = '10px';
+        s.style.animationDuration = (3 + Math.random()*2) + 's';
+        box.appendChild(s);
+        setTimeout(() => s.remove(), 5500);
+      }, 950);
+    }
+  });
+  // accessibilité : si reduced motion, révéler direct au clic sans animation
+  if(reduced){ cover.addEventListener('click', () => { counterEl.textContent = fmt(TARGET) + ' €'; }); }
+
+  /* ============================================================
+     CONFETTIS SUR LES CTA (le lien s'ouvre quand même)
+     ============================================================ */
+  document.querySelectorAll('.cta-confetti').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const r = btn.getBoundingClientRect();
+      burst(r.left + r.width/2, r.top + r.height/2, 70);
+      // petit haptic sur mobile si dispo
+      if(navigator.vibrate) navigator.vibrate(30);
+    });
+  });
+
+  /* ============================================================
+     COUNT-UPS des cartes (déclenchés à l'apparition)
+     ============================================================ */
+  function animateCountup(node){
+    const t = parseInt(node.dataset.target, 10);
+    const pre = node.dataset.prefix || '', suf = node.dataset.suffix || '';
+    if(reduced){ node.textContent = pre + fmt(t) + suf; return; }
+    const dur = t > 1000 ? 2000 : 1400, start = performance.now();
+    requestAnimationFrame(function tick(now){
+      const p = Math.min((now - start)/dur, 1);
+      const eased = 1 - Math.pow(1-p, 3);
+      node.textContent = pre + fmt(Math.round(eased * t)) + suf;
+      if(p < 1) requestAnimationFrame(tick);
+    });
+  }
+
+  /* ============================================================
+     REVEAL au scroll + déclenchement countups + barre rareté
+     ============================================================ */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        e.target.querySelectorAll('.countup:not(.done), .countup-raw:not(.done)').forEach(c => {
+          c.classList.add('done');
+          animateCountup(c);
+        });
+        e.target.querySelectorAll('.fill').forEach(f => {
+          requestAnimationFrame(() => { f.style.width = f.dataset.width; });
+        });
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold: .15});
+  document.querySelectorAll('.reveal').forEach(n => io.observe(n));
+})();
+</script>
+
+</body>
+</html>
