@@ -28,8 +28,8 @@ img{max-width:100%}
 .sous{color:var(--muted);max-width:580px;margin-bottom:34px}
 section{padding:92px 0}
 /* ---------- Écran de chargement ---------- */
-#loader{position:fixed;inset:0;z-index:200;background:radial-gradient(900px 500px at 50% 30%,#1D160F,var(--noir));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:opacity .6s,visibility .6s}
-#loader.fini{opacity:0;visibility:hidden;pointer-events:none}
+#loader{position:fixed;inset:0;z-index:200;background:radial-gradient(900px 500px at 50% 30%,#1D160F,var(--noir));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:transform .85s cubic-bezier(.75,0,.25,1),border-radius .85s cubic-bezier(.75,0,.25,1),visibility .9s}
+#loader.fini{transform:translateY(-101%);border-radius:0 0 46% 46%/0 0 90px 90px;visibility:hidden;pointer-events:none}
 #loader .marque{font-weight:900;font-size:clamp(1.3rem,4.5vw,1.9rem);letter-spacing:-.02em}
 #loader .marque i{font-family:'Playfair Display',serif;color:var(--or2)}
 .piste{position:relative;width:min(340px,78vw);height:96px;overflow:hidden}
@@ -65,11 +65,17 @@ nav.solid{box-shadow:0 14px 40px rgba(0,0,0,.5)}
 .hero .fond::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,13,11,.35),rgba(16,13,11,.15) 40%,rgba(16,13,11,.88) 88%)}
 @keyframes zoom{from{transform:scale(1)}to{transform:scale(1.07)}}
 .hero .wrap{position:relative;z-index:2;width:100%}
-.hero .surtitre{animation:monte .9s .15s both}
-.hero h1{font-size:clamp(2.7rem,8vw,5.4rem);font-weight:900;line-height:1.02;margin:18px 0 12px;animation:monte .9s .35s both}
+.hero .surtitre,.hero h1,.hero p,.hero .ctas{opacity:0}
+.pret .hero .surtitre{animation:monte .8s .1s both}
+.hero h1{font-size:clamp(2.7rem,8vw,5.4rem);font-weight:900;line-height:1.02;margin:18px 0 12px}
+.pret .hero h1{animation:monte .8s .28s both}
 .hero h1 i{font-family:'Playfair Display',serif;font-weight:600;color:var(--or2)}
-.hero p{font-size:1.05rem;color:#D8CDBA;max-width:520px;margin-bottom:30px;animation:monte .9s .55s both}
-.hero .ctas{display:flex;gap:12px;flex-wrap:wrap;animation:monte .9s .75s both}
+.hero p{font-size:1.05rem;color:#D8CDBA;max-width:520px;margin-bottom:30px}
+.pret .hero p{animation:monte .8s .46s both}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.pret .hero .ctas{animation:monte .8s .64s both}
+.hero .fond{transform:scale(1.04);opacity:.4;transition:transform 1.1s cubic-bezier(.2,.7,.2,1) .1s,opacity 1.1s .1s}
+.pret .hero .fond{transform:none;opacity:1}
 @keyframes monte{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 /* ---------- Bandeau ---------- */
 .bandeau{overflow:hidden;padding:0;margin:6px 14px;border-radius:var(--rp);background:var(--or);color:#241a06;white-space:nowrap}
@@ -86,7 +92,14 @@ nav.solid{box-shadow:0 14px 40px rgba(0,0,0,.5)}
 .prod .ph{position:relative;height:200px;background:var(--carte2);margin:10px;border-radius:calc(var(--r) - 10px);overflow:hidden}
 .prod .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:.6s}
 .prod:hover .ph img{transform:scale(1.06)}
-.prod .ph .badge{position:absolute;top:12px;left:12px}
+.prod .ph .badge{position:absolute;top:12px;left:12px;z-index:3}
+/* Vapeur chaleureuse au-dessus des photos */
+.fumee{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2}
+.fumee i{position:absolute;bottom:-24px;width:30px;height:80px;background:radial-gradient(ellipse at center,rgba(255,244,224,.5),transparent 68%);border-radius:50%;filter:blur(8px);opacity:0;animation:vape 3.6s ease-in-out infinite}
+.fumee i:nth-child(1){left:20%}
+.fumee i:nth-child(2){left:47%;animation-delay:1.2s;animation-duration:4.1s}
+.fumee i:nth-child(3){left:71%;animation-delay:2.3s}
+@keyframes vape{0%{transform:translateY(0) scaleX(1);opacity:0}18%{opacity:.55}100%{transform:translateY(-150px) scaleX(1.7) rotate(6deg);opacity:0}}
 .prod .corps{padding:10px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
 .prod h3{font-size:1.2rem;font-weight:800}
 .ligne-prix{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
@@ -197,20 +210,46 @@ input:focus,select:focus{outline:none;border-color:var(--or)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .imgbtns{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
 #pApercu{width:100%;height:130px;object-fit:cover;border-radius:16px;margin-top:10px;background:var(--carte)}
+/* Poulet baladeur qui picore */
+#pouletLibre{position:fixed;bottom:-3px;left:-70px;width:53px;height:90px;z-index:45;pointer-events:none;background:url('img/poulet-sprite.png') 0 0/400% 100% no-repeat;display:none}
+#pouletLibre.actif{display:block;transition:left var(--duree,6s) linear}
+#pouletLibre.marche{animation:cours .48s steps(4) infinite}
+#pouletLibre.picore{background-image:url('img/poulet-picore.png');animation:cours .95s steps(4) infinite}
+#pouletLibre.gauche{transform:scaleX(-1)}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--or);color:#241a06;padding:13px 24px;border-radius:var(--rp);font-size:.92rem;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:99;box-shadow:0 12px 34px rgba(0,0,0,.5)}
 .toast.on{opacity:1}
 /* ---------- Responsive ---------- */
 @media(max-width:840px){
   .histoire-grille,.contact-grille{grid-template-columns:1fr}
   .equipe-grille{grid-template-columns:1fr;max-width:380px;margin-inline:auto}
-  .menu{position:fixed;top:76px;left:12px;right:12px;background:rgba(23,19,15,.97);backdrop-filter:blur(18px);flex-direction:column;padding:18px;gap:6px;border-radius:28px;border:1px solid rgba(245,238,225,.1);transform:translateY(-16px);opacity:0;pointer-events:none;transition:.3s;align-items:stretch;text-align:center}
+  .menu{position:fixed;top:72px;left:10px;right:10px;background:rgba(23,19,15,.97);backdrop-filter:blur(18px);flex-direction:column;padding:16px;gap:6px;border-radius:26px;border:1px solid rgba(245,238,225,.1);transform:translateY(-16px);opacity:0;pointer-events:none;transition:.3s;align-items:stretch;text-align:center}
   .menu.ouvert{transform:none;opacity:1;pointer-events:auto}
   #burger{display:block}
-  section{padding:64px 0}
+  nav{top:8px;width:calc(100vw - 16px);padding:8px 8px 8px 14px;gap:6px}
+  .logo{font-size:.86rem}
+  .logo em{font-size:.5rem;letter-spacing:.22em}
+  #btnTel .tx{display:none}
+  #btnTel,#lienAdmin{padding:9px 12px}
+  .hero{min-height:96svh;padding:96px 0 30px;align-items:flex-end}
+  .hero .fond{inset:8px}
+  .hero p{font-size:.96rem}
+  .hero .ctas .btn{flex:1;min-width:0;padding:13px 14px;font-size:.86rem}
+  .bandeau{margin:6px 8px}
+  #histoire,#avis{margin:0 8px;border-radius:30px}
+  section{padding:60px 0}
+  .h2{font-size:1.7rem}
+  .wrap{padding:0 16px}
   .grid2{grid-template-columns:1fr}
   .jalon{grid-template-columns:1fr;gap:8px}
   .jalon b{width:90px}
   .map-bloc{min-height:320px}
+  .map-bloc .sur-map{flex-direction:column;align-items:stretch;text-align:center;gap:8px}
+  .tabs{border-radius:24px;flex-wrap:wrap}
+  .tabs .btn{font-size:.78rem;padding:11px 8px;min-width:100px}
+  .prod-grille{grid-template-columns:1fr}
+  .avis-c{width:280px}
+  #zoneAdmin{padding:96px 0 60px}
+  .stock-ctrl{margin-left:auto}
 }
 </style>
 </head>
@@ -232,7 +271,7 @@ input:focus,select:focus{outline:none;border-color:var(--or)}
     <li><a href="#contact">Nous trouver</a></li>
   </ul>
   <div style="display:flex;gap:8px;align-items:center">
-    <a class="btn small" href="tel:0601227015">☎ Appeler</a>
+    <a class="btn small" id="btnTel" href="tel:0601227015">☎<span class="tx">&nbsp;Appeler</span></a>
     <button class="btn ligne small" id="lienAdmin" title="Espace boucher">🔑</button>
     <button id="burger" aria-label="Menu">☰</button>
   </div>
@@ -394,6 +433,7 @@ input:focus,select:focus{outline:none;border-color:var(--or)}
     <div class="imgbtns">
       <button type="button" class="btn ligne small" onclick="pCam.click()">📷 Prendre une photo</button>
       <button type="button" class="btn ligne small" onclick="pFichier.click()">🖼️ Choisir une image</button>
+      <button type="button" class="btn small" id="btnGen" onclick="genererImage()">✨ Générer par IA</button>
       <button type="button" class="btn rouge small" id="pImgSuppr" onclick="supprImage()" hidden>Retirer</button>
     </div>
     <input type="file" id="pCam" accept="image/*" capture="environment" hidden>
@@ -406,6 +446,7 @@ input:focus,select:focus{outline:none;border-color:var(--or)}
   </form>
 </dialog>
 
+<div id="pouletLibre"></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -413,7 +454,9 @@ input:focus,select:focus{outline:none;border-color:var(--or)}
 // ---------- Écran de chargement ----------
 (function(){
   const l=document.getElementById('loader');
-  const fin=()=>l.classList.add('fini');
+  let fait=false;
+  const fin=()=>{if(fait)return;fait=true;l.classList.add('fini');
+    setTimeout(()=>document.body.classList.add('pret'),250)};
   const t0=Date.now();
   window.addEventListener('load',()=>setTimeout(fin,Math.max(0,1600-(Date.now()-t0))));
   setTimeout(fin,3500); // garde-fou
@@ -475,7 +518,7 @@ function vueClient(){
     h+='<div class="prod-grille">';
     dispo.forEach(p=>{
       h+=`<article class="prod reveal">
-        <div class="ph">${p.img?`<img src="${p.img}" alt="${esc(p.nom)}" loading="lazy">`:''}${badgeStock(p)}</div>
+        <div class="ph">${p.img?`<img src="${p.img}" alt="${esc(p.nom)}" loading="lazy">`:''}<span class="fumee"><i></i><i></i><i></i></span>${badgeStock(p)}</div>
         <div class="corps">
           <div class="ligne-prix"><h3>${esc(p.nom)}</h3><span class="prix">${eur(p.prix)} <small>/ ${p.unite}</small></span></div>
           <span class="reste">Il reste ${fmtQ(p.stock,p.unite)}</span>
@@ -546,10 +589,35 @@ const photoMini=p=>p.img?`<img class="mini" src="${p.img}" alt="">`:'<div class=
 function vueAdmin(){
   const attente=db.resas.filter(r=>r.statut==='attente').length;
   let h=`<div class="tabs">
-    <button class="btn ${ongletAdmin==='stock'?'':'off'}" onclick="setOnglet('stock')">📦 Stock du jour</button>
-    <button class="btn ${ongletAdmin==='resas'?'':'off'}" onclick="setOnglet('resas')">📋 Réservations${attente?' ('+attente+')':''}</button>
+    <button class="btn ${ongletAdmin==='stock'?'':'off'}" onclick="setOnglet('stock')">📦 Stock</button>
+    <button class="btn ${ongletAdmin==='resas'?'':'off'}" onclick="setOnglet('resas')">📋 Résas${attente?' ('+attente+')':''}</button>
+    <button class="btn ${ongletAdmin==='cal'?'':'off'}" onclick="setOnglet('cal')">📅 Calendrier</button>
   </div>`;
-  if(ongletAdmin==='stock'){
+  if(ongletAdmin==='cal'){
+    // Réservations en attente groupées par jour de retrait
+    const parJour={};
+    db.resas.filter(r=>r.statut==='attente').forEach(r=>{(parJour[r.date]=parJour[r.date]||[]).push(r)});
+    const jours=Object.keys(parJour).sort();
+    const auj=new Date().toISOString().slice(0,10);
+    if(!jours.length)h+='<div class="vide">Aucun retrait à venir. Le calendrier se remplit à chaque réservation.</div>';
+    jours.forEach(j=>{
+      const rs=parJour[j];
+      // totaux par pièce
+      const tot={};
+      rs.forEach(r=>{const k=r.pieceNom+'|'+r.unite;tot[k]=(tot[k]||0)+r.qte});
+      const passe=j<auj;
+      const titre=j===auj?'🔴 Aujourd\'hui':new Date(j+'T00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+      h+=`<div class="carte-a"${passe?' style="border-color:rgba(180,74,62,.5)"':''}>
+        <div class="row"><h3 style="font-size:1.05rem;font-weight:800;text-transform:capitalize">${titre}${passe?' <span class="badge epuise">En retard</span>':''}</h3>
+        <span class="badge attente">${rs.length} retrait${rs.length>1?'s':''}</span></div>
+        <div style="margin-top:10px;display:grid;gap:6px">
+        ${Object.entries(tot).map(([k,q])=>{const[nom,u]=k.split('|');return `<div class="row" style="background:var(--carte2);border-radius:14px;padding:8px 14px"><b>${esc(nom)}</b><span style="color:var(--or2);font-weight:700">${fmtQ(Math.round(q*10)/10,u)}</span></div>`}).join('')}
+        </div>
+        <div style="margin-top:10px" class="muted">
+        ${rs.map(r=>`👤 ${esc(r.nom)} — ${esc(r.pieceNom)} ${fmtQ(r.qte,r.unite)}${r.note?' <i>(«&nbsp;'+esc(r.note)+'&nbsp;»)</i>':''}`).join('<br>')}
+        </div></div>`;
+    });
+  }else if(ongletAdmin==='stock'){
     h+=`<div class="row" style="margin-bottom:14px"><span class="muted">${db.pieces.length} pièce(s) en vitrine</span><button class="btn small" onclick="ouvrirPiece()">+ Ajouter une pièce</button></div>`;
     if(!db.pieces.length)h+='<div class="vide">Aucune pièce. Ajoutez-en une !</div>';
     db.pieces.forEach(p=>{
@@ -631,6 +699,48 @@ function chargeFichier(e){
 $('pCam').addEventListener('change',chargeFichier);
 $('pFichier').addEventListener('change',chargeFichier);
 window.supprImage=()=>{imgEnCours='';majApercu('')};
+
+// Génération d'image par IA (clé Gemini du boucher, stockée uniquement sur son appareil)
+window.genererImage=async function(){
+  const nom=$('pNom').value.trim();
+  if(!nom){toast('Entrez d\'abord le nom de la pièce');return}
+  let cle=localStorage.getItem(K+'_gk');
+  if(!cle){
+    cle=prompt('Collez votre clé API Gemini (une seule fois, elle reste sur cet appareil) :');
+    if(!cle)return;
+    cle=cle.trim();localStorage.setItem(K+'_gk',cle);
+  }
+  const btn=$('btnGen');btn.disabled=true;btn.textContent='✨ Génération…';
+  try{
+    const rep=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-goog-api-key':cle},
+      body:JSON.stringify({contents:[{parts:[{text:`Photo professionnelle très réaliste de ${nom} (pièce de boucherie crue), posée sur un billot de boucher en bois clair, éclairage doux et chaleureux de vitrine de boucherie artisanale française, arrière-plan flou, photographie culinaire haut de gamme`}]}],
+        generationConfig:{responseModalities:['IMAGE'],imageConfig:{aspectRatio:'4:3'}}})
+    });
+    const d=await rep.json();
+    if(!rep.ok){
+      if(rep.status===400||rep.status===403){localStorage.removeItem(K+'_gk');toast('Clé invalide — réessayez pour la saisir à nouveau')}
+      else if(rep.status===429)toast('Quota atteint — vérifiez la facturation de la clé');
+      else toast('Erreur de génération ('+rep.status+')');
+      return;
+    }
+    const part=(d.candidates?.[0]?.content?.parts||[]).find(p=>p.inlineData);
+    if(!part){toast('Aucune image reçue, réessayez');return}
+    // recompression au format habituel (720px JPEG)
+    const img=new Image();
+    img.onload=()=>{
+      const max=720,r=Math.min(1,max/Math.max(img.width,img.height));
+      const c=document.createElement('canvas');
+      c.width=Math.round(img.width*r);c.height=Math.round(img.height*r);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      imgEnCours=c.toDataURL('image/jpeg',.72);
+      majApercu(imgEnCours);toast('Image générée ✨');
+    };
+    img.src='data:'+part.inlineData.mimeType+';base64,'+part.inlineData.data;
+  }catch(e){toast('Réseau indisponible, réessayez')}
+  finally{btn.disabled=false;btn.textContent='✨ Générer par IA'}
+};
 $('formPiece').addEventListener('submit',e=>{
   e.preventDefault();
   const d={nom:$('pNom').value.trim(),prix:parseFloat($('pPrix').value),unite:$('pUnite').value,stock:parseFloat($('pStock').value)};
@@ -695,6 +805,43 @@ const obsC=new IntersectionObserver(en=>{
   }
 },{threshold:.4});
 obsC.observe($('c1'));
+
+// ---------- Poulet baladeur ----------
+(function(){
+  const el=$('pouletLibre');
+  let occupe=false;
+  function balade(){
+    if(occupe||admin||document.hidden){planifie();return}
+    occupe=true;
+    const versDroite=Math.random()<.5;
+    const W=innerWidth;
+    const arret=W*(0.25+Math.random()*0.5); // où il s'arrête pour picorer
+    el.classList.remove('gauche','picore');
+    el.classList.add('actif','marche');
+    el.style.transition='none';
+    el.style.left=(versDroite?-70:W+20)+'px';
+    if(!versDroite)el.classList.add('gauche');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      const d1=Math.abs(arret-(versDroite?-70:W+20))/110; // ~110px/s
+      el.style.setProperty('--duree',d1+'s');
+      el.style.transition='left '+d1+'s linear';
+      el.style.left=arret+'px';
+      setTimeout(()=>{ // picore 3-5s
+        el.classList.remove('marche');el.classList.add('picore');
+        setTimeout(()=>{ // repart et sort
+          el.classList.remove('picore');el.classList.add('marche');
+          const sortie=versDroite?W+30:-80;
+          const d2=Math.abs(sortie-arret)/110;
+          el.style.transition='left '+d2+'s linear';
+          el.style.left=sortie+'px';
+          setTimeout(()=>{el.classList.remove('actif','marche');occupe=false;planifie()},d2*1000+200);
+        },3000+Math.random()*2200);
+      },d1*1000+50);
+    }));
+  }
+  function planifie(){setTimeout(balade,12000+Math.random()*18000)}
+  setTimeout(balade,7000); // première apparition ~7s après l'arrivée
+})();
 
 render();
 observeReveals();

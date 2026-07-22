@@ -3,6 +3,8 @@
 Site vitrine premium + app de réservation, en un seul fichier (`index.html`), aucune installation. Ouvrez-le dans un navigateur ou publiez le dossier (GitHub Pages : `https://<votre-site>/boucherie/`).
 
 ## Le site
+- Écran de chargement « rideau » avec poulet animé (sprites Gemini) qui se déroule vers le haut
+- Poulet baladeur qui traverse l'écran et picore de temps en temps ; vapeur chaleureuse sur les photos
 - Hero plein écran, histoire familiale sur 5 générations (frise 1898 → 2020), portraits de l'équipe
 - Animations au défilement, navigation avec section active, menu mobile
 - Contact : appel direct (06 01 22 70 15) et itinéraire Google Maps en un clic
@@ -26,7 +28,9 @@ Ouvrez l'appli Gemini (ou gemini.google.com), collez un prompt ci-dessous, enreg
 
 Remplacez « entrecôte de bœuf crue persillée » par : *filet de bœuf*, *côtes de porc*, *poulet fermier entier*, *merguez fraîches*, *gigot d'agneau*… en gardant le reste du prompt pour un style homogène.
 
-## Côté boucher (bouton « Espace boucher », code par défaut : **1234**)
+## Côté boucher (bouton 🔑 dans la barre, code par défaut : **1234**)
+- **📅 Calendrier** : les retraits à venir groupés par jour, avec totaux par pièce (kilos / pièces) et détail par client
+- **✨ Générer par IA** : dans la fiche d'une pièce, génère une photo réaliste via l'API Gemini. Au premier clic, collez votre clé API (aistudio.google.com → API keys) : elle reste uniquement sur l'appareil du boucher, jamais dans le code.
 - **Stock du jour** : ajouter / modifier / supprimer des pièces, ajuster le stock en un clic (+/−, bouton « Épuisé »)
 - **Réservations** : liste avec nom, téléphone (cliquable), date de retrait ; marquer « Retirée » ou « Annuler » (le stock est remis automatiquement)
 - Changer le code d'accès depuis l'app
