@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boucherie — Réservations</title>
+<style>
+:root{--rouge:#8E2B2B;--rouge2:#6E1F1F;--creme:#FAF6F0;--carte:#fff;--txt:#2B2320;--muted:#8A7B72;--ok:#2E7D4F;--warn:#B26A00;--line:#E8DFD5;--radius:14px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--creme);color:var(--txt);min-height:100vh}
+header{background:var(--rouge);color:#fff;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:10}
+header h1{font-size:1.15rem;font-weight:700}
+header small{display:block;font-weight:400;opacity:.85;font-size:.75rem}
+.btn{border:0;border-radius:10px;padding:10px 16px;font-size:.95rem;font-weight:600;cursor:pointer;background:var(--rouge);color:#fff}
+.btn.sec{background:#fff;color:var(--rouge);border:1.5px solid var(--rouge)}
+.btn.ghost{background:rgba(255,255,255,.15);color:#fff}
+.btn.small{padding:6px 10px;font-size:.8rem}
+.btn.ok{background:var(--ok)}.btn.danger{background:#B3261E}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+main{max-width:640px;margin:0 auto;padding:16px;padding-bottom:60px}
+.card{background:var(--carte);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:12px}
+.card h3{font-size:1rem;margin-bottom:2px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.muted{color:var(--muted);font-size:.85rem}
+.prix{font-weight:700;color:var(--rouge);white-space:nowrap}
+.badge{font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.badge.dispo{background:#E3F2E9;color:var(--ok)}
+.badge.peu{background:#FFF3E0;color:var(--warn)}
+.badge.epuise{background:#FBE9E7;color:#B3261E}
+.badge.attente{background:#FFF3E0;color:var(--warn)}
+.badge.retiree{background:#E3F2E9;color:var(--ok)}
+.badge.annulee{background:#EEE;color:#777}
+label{display:block;font-size:.82rem;font-weight:600;margin:10px 0 4px}
+input,select{width:100%;padding:10px;border:1.5px solid var(--line);border-radius:10px;font-size:1rem;background:#fff;color:var(--txt)}
+input:focus,select:focus{outline:2px solid var(--rouge);border-color:var(--rouge)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tabs .btn{flex:1}
+.tabs .btn.off{background:#fff;color:var(--muted);border:1.5px solid var(--line)}
+.vide{text-align:center;color:var(--muted);padding:30px 10px}
+dialog{border:0;border-radius:var(--radius);padding:18px;max-width:420px;width:92%;margin:auto}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;padding:10px 18px;border-radius:99px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
+.toast.on{opacity:1}
+.stock-ctrl{display:flex;align-items:center;gap:8px}
+.stock-ctrl b{min-width:52px;text-align:center}
+@media(max-width:420px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="titre">🥩 Boucherie<small>Réservez vos morceaux</small></h1>
+  <button class="btn ghost small" id="btnMode">Espace boucher</button>
+</header>
+<main id="app"></main>
+
+<dialog id="dlgResa">
+  <h3>Réserver : <span id="dlgNom"></span></h3>
+  <p class="muted" id="dlgInfo"></p>
+  <form id="formResa">
+    <label>Votre nom *</label><input id="rNom" required maxlength="60">
+    <label>Téléphone *</label><input id="rTel" type="tel" required pattern="[0-9 +.\-]{6,20}" placeholder="06 12 34 56 78">
+    <div class="grid2">
+      <div><label>Quantité *</label><input id="rQte" type="number" min="0.1" step="0.1" required></div>
+      <div><label>Retrait le *</label><input id="rDate" type="date" required></div>
+    </div>
+    <label>Remarque (facultatif)</label><input id="rNote" maxlength="120" placeholder="Ex : coupé en tranches">
+    <div class="row" style="margin-top:14px">
+      <button type="button" class="btn sec" onclick="dlgResa.close()">Annuler</button>
+      <button type="submit" class="btn">Confirmer</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlgPiece">
+  <h3 id="dlgPieceTitre">Ajouter une pièce</h3>
+  <form id="formPiece">
+    <label>Nom *</label><input id="pNom" required maxlength="60" placeholder="Ex : Entrecôte">
+    <div class="grid2">
+      <div><label>Prix (€) *</label><input id="pPrix" type="number" min="0" step="0.01" required></div>
+      <div><label>Unité</label><select id="pUnite"><option value="kg">/ kg</option><option value="pièce">/ pièce</option></select></div>
+    </div>
+    <label>Stock du jour *</label><input id="pStock" type="number" min="0" step="0.1" required>
+    <div class="row" style="margin-top:14px">
+      <button type="button" class="btn sec" onclick="dlgPiece.close()">Annuler</button>
+      <button type="submit" class="btn">Enregistrer</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+// ---------- Données (localStorage) ----------
+const K='boucherieApp_v1';
+const defaut={pin:'1234',pieces:[
+  {id:1,nom:'Entrecôte',prix:28.9,unite:'kg',stock:6},
+  {id:2,nom:'Filet de bœuf',prix:39.5,unite:'kg',stock:3},
+  {id:3,nom:'Côte de porc',prix:12.9,unite:'kg',stock:8},
+  {id:4,nom:'Poulet fermier',prix:11.5,unite:'pièce',stock:5},
+  {id:5,nom:'Merguez (les 6)',prix:7.2,unite:'pièce',stock:10},
+  {id:6,nom:'Gigot d\'agneau',prix:24.9,unite:'kg',stock:4}
+],resas:[],nextId:7,nextResa:1};
+let db;
+try{db=JSON.parse(localStorage.getItem(K))||defaut}catch(e){db=defaut}
+const save=()=>localStorage.setItem(K,JSON.stringify(db));
+save();
+
+let admin=false;
+const $=id=>document.getElementById(id);
+const app=$('app');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const eur=n=>n.toFixed(2).replace('.',',')+' €';
+const fmtQ=(q,u)=>(u==='kg'?q+' kg':q+(q>1?' pièces':' pièce'));
+const fmtDate=d=>new Date(d+'T00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500)}
+const badgeStock=p=>p.stock<=0?'<span class="badge epuise">Épuisé</span>':p.stock<=2?'<span class="badge peu">Bientôt épuisé</span>':'<span class="badge dispo">Disponible</span>';
+
+// ---------- Vue client ----------
+function vueClient(){
+  const dispo=db.pieces.filter(p=>p.stock>0);
+  const monTel=localStorage.getItem(K+'_tel')||'';
+  const mesResas=db.resas.filter(r=>r.tel===monTel&&r.statut==='attente');
+  let h='';
+  if(mesResas.length){
+    h+='<div class="card"><h3>📋 Mes réservations</h3>';
+    mesResas.forEach(r=>{const p=db.pieces.find(x=>x.id===r.pieceId);
+      h+=`<div class="row" style="margin-top:8px"><div><b>${esc(r.pieceNom)}</b> — ${fmtQ(r.qte,r.unite)}<div class="muted">Retrait ${fmtDate(r.date)}</div></div><span class="badge attente">En attente</span></div>`});
+    h+='</div>';
+  }
+  h+='<h2 style="font-size:1.05rem;margin:6px 0 10px">Morceaux disponibles aujourd\'hui</h2>';
+  if(!dispo.length)h+='<div class="vide">Aucun morceau disponible pour le moment.<br>Revenez plus tard !</div>';
+  dispo.forEach(p=>{
+    h+=`<div class="card"><div class="row">
+      <div><h3>${esc(p.nom)}</h3><span class="muted">Reste : ${fmtQ(p.stock,p.unite)}</span> ${badgeStock(p)}</div>
+      <div style="text-align:right"><div class="prix">${eur(p.prix)} <span class="muted">/ ${p.unite}</span></div>
+      <button class="btn small" style="margin-top:6px" onclick="ouvrirResa(${p.id})">Réserver</button></div>
+    </div></div>`;
+  });
+  const epuise=db.pieces.filter(p=>p.stock<=0);
+  if(epuise.length){
+    h+='<h2 style="font-size:.95rem;margin:14px 0 8px;color:var(--muted)">Épuisé aujourd\'hui</h2>';
+    epuise.forEach(p=>h+=`<div class="card" style="opacity:.55"><div class="row"><h3>${esc(p.nom)}</h3><span class="badge epuise">Épuisé</span></div></div>`);
+  }
+  app.innerHTML=h;
+}
+
+let pieceCourante=null;
+window.ouvrirResa=function(id){
+  pieceCourante=db.pieces.find(p=>p.id===id);
+  if(!pieceCourante)return;
+  $('dlgNom').textContent=pieceCourante.nom;
+  $('dlgInfo').textContent=`${eur(pieceCourante.prix)} / ${pieceCourante.unite} — reste ${fmtQ(pieceCourante.stock,pieceCourante.unite)}`;
+  $('rQte').max=pieceCourante.stock;
+  $('rQte').value=Math.min(1,pieceCourante.stock);
+  $('rNom').value=localStorage.getItem(K+'_nom')||'';
+  $('rTel').value=localStorage.getItem(K+'_tel')||'';
+  const d=new Date();d.setDate(d.getDate()+1);
+  const iso=d.toISOString().slice(0,10);
+  $('rDate').min=new Date().toISOString().slice(0,10);
+  $('rDate').value=iso;
+  $('rNote').value='';
+  dlgResa.showModal();
+};
+$('formResa').addEventListener('submit',e=>{
+  e.preventDefault();
+  const qte=parseFloat($('rQte').value);
+  const p=db.pieces.find(x=>x.id===pieceCourante.id);
+  if(!p||qte<=0||qte>p.stock){toast('Quantité indisponible');return}
+  p.stock=Math.round((p.stock-qte)*10)/10;
+  db.resas.unshift({id:db.nextResa++,pieceId:p.id,pieceNom:p.nom,unite:p.unite,qte,
+    nom:$('rNom').value.trim(),tel:$('rTel').value.trim(),date:$('rDate').value,
+    note:$('rNote').value.trim(),statut:'attente',creee:new Date().toISOString()});
+  localStorage.setItem(K+'_nom',$('rNom').value.trim());
+  localStorage.setItem(K+'_tel',$('rTel').value.trim());
+  save();dlgResa.close();render();
+  toast('✅ Réservation enregistrée !');
+});
+
+// ---------- Vue admin ----------
+let ongletAdmin='stock';
+function vueAdmin(){
+  const attente=db.resas.filter(r=>r.statut==='attente').length;
+  let h=`<div class="tabs">
+    <button class="btn ${ongletAdmin==='stock'?'':'off'}" onclick="setOnglet('stock')">📦 Stock du jour</button>
+    <button class="btn ${ongletAdmin==='resas'?'':'off'}" onclick="setOnglet('resas')">📋 Réservations${attente?' ('+attente+')':''}</button>
+  </div>`;
+  if(ongletAdmin==='stock'){
+    h+=`<div class="row" style="margin-bottom:10px"><span class="muted">${db.pieces.length} pièce(s)</span><button class="btn small" onclick="ouvrirPiece()">+ Ajouter une pièce</button></div>`;
+    if(!db.pieces.length)h+='<div class="vide">Aucune pièce. Ajoutez-en une !</div>';
+    db.pieces.forEach(p=>{
+      h+=`<div class="card"><div class="row">
+        <div><h3>${esc(p.nom)}</h3><span class="muted">${eur(p.prix)} / ${p.unite}</span> ${badgeStock(p)}</div>
+        <div class="stock-ctrl">
+          <button class="btn sec small" onclick="majStock(${p.id},-1)">−</button>
+          <b>${p.stock}${p.unite==='kg'?' kg':''}</b>
+          <button class="btn sec small" onclick="majStock(${p.id},1)">+</button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn small sec" onclick="ouvrirPiece(${p.id})">Modifier</button>
+        <span><button class="btn small sec" onclick="videStock(${p.id})">Épuisé</button>
+        <button class="btn small danger" onclick="supprPiece(${p.id})">Suppr.</button></span>
+      </div></div>`;
+    });
+  }else{
+    const actives=db.resas.filter(r=>r.statut==='attente');
+    const passees=db.resas.filter(r=>r.statut!=='attente');
+    if(!db.resas.length)h+='<div class="vide">Aucune réservation pour le moment.</div>';
+    const carte=r=>{
+      const lib={attente:'En attente',retiree:'Retirée',annulee:'Annulée'}[r.statut];
+      return `<div class="card"${r.statut!=='attente'?' style="opacity:.6"':''}><div class="row">
+        <div><h3>${esc(r.pieceNom)} — ${fmtQ(r.qte,r.unite)}</h3>
+        <div class="muted">👤 ${esc(r.nom)} · 📞 <a href="tel:${esc(r.tel)}">${esc(r.tel)}</a></div>
+        <div class="muted">Retrait ${fmtDate(r.date)}${r.note?' · «&nbsp;'+esc(r.note)+'&nbsp;»':''}</div></div>
+        <span class="badge ${r.statut}">${lib}</span></div>
+        ${r.statut==='attente'?`<div class="row" style="margin-top:10px">
+          <button class="btn small ok" onclick="statutResa(${r.id},'retiree')">✔ Retirée</button>
+          <button class="btn small danger" onclick="statutResa(${r.id},'annulee')">Annuler + remettre en stock</button>
+        </div>`:''}</div>`;
+    };
+    actives.forEach(r=>h+=carte(r));
+    if(passees.length){h+='<h2 style="font-size:.95rem;margin:14px 0 8px;color:var(--muted)">Historique</h2>';passees.slice(0,20).forEach(r=>h+=carte(r))}
+  }
+  h+=`<div style="text-align:center;margin-top:20px"><button class="btn sec small" onclick="changerPin()">🔑 Changer le code</button></div>`;
+  app.innerHTML=h;
+}
+window.setOnglet=o=>{ongletAdmin=o;render()};
+window.majStock=(id,d)=>{const p=db.pieces.find(x=>x.id===id);if(!p)return;
+  const pas=p.unite==='kg'?0.5:1;
+  p.stock=Math.max(0,Math.round((p.stock+d*pas)*10)/10);save();render()};
+window.videStock=id=>{const p=db.pieces.find(x=>x.id===id);if(p){p.stock=0;save();render()}};
+window.supprPiece=id=>{const p=db.pieces.find(x=>x.id===id);
+  if(p&&confirm(`Supprimer « ${p.nom} » ?`)){db.pieces=db.pieces.filter(x=>x.id!==id);save();render()}};
+window.statutResa=(id,st)=>{const r=db.resas.find(x=>x.id===id);if(!r)return;
+  if(st==='annulee'){const p=db.pieces.find(x=>x.id===r.pieceId);if(p)p.stock=Math.round((p.stock+r.qte)*10)/10}
+  r.statut=st;save();render();toast(st==='retiree'?'Marquée retirée':'Annulée, stock remis à jour')};
+window.changerPin=()=>{const a=prompt('Code actuel :');if(a===null)return;
+  if(a!==db.pin){toast('Code incorrect');return}
+  const n=prompt('Nouveau code (4 chiffres min.) :');
+  if(n&&n.length>=4){db.pin=n;save();toast('Code modifié ✅')}};
+
+// Pièce : ajout / édition
+let pieceEdit=null;
+window.ouvrirPiece=function(id){
+  pieceEdit=id?db.pieces.find(p=>p.id===id):null;
+  $('dlgPieceTitre').textContent=pieceEdit?'Modifier la pièce':'Ajouter une pièce';
+  $('pNom').value=pieceEdit?pieceEdit.nom:'';
+  $('pPrix').value=pieceEdit?pieceEdit.prix:'';
+  $('pUnite').value=pieceEdit?pieceEdit.unite:'kg';
+  $('pStock').value=pieceEdit?pieceEdit.stock:'';
+  dlgPiece.showModal();
+};
+$('formPiece').addEventListener('submit',e=>{
+  e.preventDefault();
+  const d={nom:$('pNom').value.trim(),prix:parseFloat($('pPrix').value),unite:$('pUnite').value,stock:parseFloat($('pStock').value)};
+  if(!d.nom||isNaN(d.prix)||isNaN(d.stock))return;
+  if(pieceEdit)Object.assign(pieceEdit,d);
+  else db.pieces.push(Object.assign({id:db.nextId++},d));
+  save();dlgPiece.close();render();toast('Enregistré ✅');
+});
+
+// ---------- Bascule client / admin ----------
+$('btnMode').addEventListener('click',()=>{
+  if(admin){admin=false;render();return}
+  const c=prompt('Code boucher :');
+  if(c===db.pin){admin=true;render()}
+  else if(c!==null)toast('Code incorrect');
+});
+function render(){
+  $('btnMode').textContent=admin?'← Vue client':'Espace boucher';
+  $('titre').innerHTML=admin?'🔪 Espace boucher<small>Gestion stock &amp; réservations</small>':'🥩 Boucherie<small>Réservez vos morceaux</small>';
+  admin?vueAdmin():vueClient();
+}
+render();
+</script>
+</body>
+</html>
