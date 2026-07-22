@@ -4,236 +4,286 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L'Aile ou la Cuisse — Boucherie familiale depuis 1898</title>
-<meta name="description" content="Boucherie artisanale familiale, 5 générations de savoir-faire. Réservez vos morceaux en ligne.">
+<meta name="description" content="Boucherie artisanale familiale à Lyon, 5 générations de savoir-faire. Réservez vos morceaux en ligne.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --noir:#171210;--noir2:#1E1713;--carte:#251C16;--carte2:#2C221B;
-  --or:#C9A227;--or2:#E0BE55;--creme:#F3EBDD;--muted:#A69885;
-  --rouge:#9E3B32;--ok:#5FA97C;--warn:#D99A3D;--line:rgba(201,162,39,.18);
-  --serif:'Playfair Display',Georgia,serif;--sans:'Jost',system-ui,sans-serif;
+  --noir:#100D0B;--noir2:#17130F;--carte:#1F1A15;--carte2:#282018;
+  --or:#D5A939;--or2:#EAC463;--creme:#F5EEE1;--muted:#A2947F;
+  --rouge:#B44A3E;--ok:#63B183;--warn:#DFA246;--line:rgba(213,169,57,.16);
+  --r:26px;--rp:999px;
+  --sans:'Inter',-apple-system,'SF Pro Display',system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--noir);color:var(--creme);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden}
-h1,h2,h3{font-family:var(--serif)}
+body{background:var(--noir);color:var(--creme);font-family:var(--sans);font-weight:400;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3{letter-spacing:-.02em}
 a{color:inherit}
 img{max-width:100%}
-.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
-.surtitre{font-size:.78rem;letter-spacing:.35em;text-transform:uppercase;color:var(--or);font-weight:500}
-.h2{font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:700;margin:8px 0 14px}
-.filet{width:54px;height:2px;background:var(--or);margin:18px 0 26px}
-section{padding:88px 0}
-/* ---- Nav ---- */
-nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:.35s;padding:18px 0}
-nav.solid{background:rgba(23,18,16,.94);backdrop-filter:blur(8px);box-shadow:0 2px 24px rgba(0,0,0,.45);padding:10px 0}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px}
-.logo{font-family:var(--serif);font-weight:900;font-size:1.12rem;letter-spacing:.06em;color:var(--creme);text-decoration:none;line-height:1.15}
-.logo em{display:block;font-family:var(--sans);font-style:normal;font-size:.6rem;letter-spacing:.32em;color:var(--or);font-weight:500;text-transform:uppercase}
-.menu{display:flex;gap:26px;list-style:none;align-items:center}
-.menu a{text-decoration:none;font-size:.88rem;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:var(--creme);opacity:.75;transition:.25s;padding-bottom:3px;border-bottom:1.5px solid transparent}
-.menu a:hover{opacity:1}
-.menu a.actif{opacity:1;color:var(--or2);border-bottom-color:var(--or)}
-.btn{display:inline-block;border:0;cursor:pointer;text-decoration:none;text-align:center;font-family:var(--sans);font-weight:500;letter-spacing:.08em;border-radius:2px;transition:.25s;font-size:.9rem;padding:13px 26px;background:var(--or);color:#1d1508}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.surtitre{display:inline-block;font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;color:var(--or2);font-weight:600;background:rgba(213,169,57,.1);border:1px solid var(--line);padding:8px 16px;border-radius:var(--rp)}
+.h2{font-size:clamp(1.9rem,4.6vw,2.9rem);font-weight:800;margin:16px 0 10px;line-height:1.12}
+.sous{color:var(--muted);max-width:580px;margin-bottom:34px}
+section{padding:92px 0}
+/* ---------- Écran de chargement ---------- */
+#loader{position:fixed;inset:0;z-index:200;background:radial-gradient(900px 500px at 50% 30%,#1D160F,var(--noir));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:opacity .6s,visibility .6s}
+#loader.fini{opacity:0;visibility:hidden;pointer-events:none}
+#loader .marque{font-weight:900;font-size:clamp(1.3rem,4.5vw,1.9rem);letter-spacing:-.02em}
+#loader .marque i{font-family:'Playfair Display',serif;color:var(--or2)}
+.piste{position:relative;width:min(340px,78vw);height:96px;overflow:hidden}
+.piste::after{content:'';position:absolute;left:0;right:0;bottom:8px;height:2px;border-radius:2px;background:repeating-linear-gradient(90deg,var(--line) 0 14px,transparent 14px 26px);animation:sol .5s linear infinite}
+@keyframes sol{from{transform:none}to{transform:translateX(-26px)}}
+.poulet{position:absolute;bottom:6px;left:0;width:53px;height:90px;background:url('img/poulet-sprite.png') 0 0/400% 100% no-repeat;animation:cours .48s steps(4) infinite,traverse 2.6s linear infinite}
+@keyframes cours{from{background-position:0 0}to{background-position:-212px 0}}
+@keyframes traverse{from{transform:translateX(-70px)}to{transform:translateX(410px)}}
+#loader small{color:var(--muted);letter-spacing:.16em;text-transform:uppercase;font-size:.68rem;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+/* ---------- Nav flottante ---------- */
+nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:60;width:min(1040px,calc(100vw - 24px));background:rgba(23,19,15,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(245,238,225,.08);border-radius:var(--rp);padding:10px 10px 10px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:box-shadow .3s}
+nav.solid{box-shadow:0 14px 40px rgba(0,0,0,.5)}
+.logo{font-weight:900;font-size:1rem;text-decoration:none;line-height:1.1;letter-spacing:-.01em}
+.logo em{display:block;font-style:normal;font-size:.58rem;letter-spacing:.3em;color:var(--or);font-weight:600;text-transform:uppercase}
+.menu{display:flex;gap:4px;list-style:none;align-items:center}
+.menu a{text-decoration:none;font-size:.85rem;font-weight:500;color:var(--creme);opacity:.72;transition:.25s;padding:9px 15px;border-radius:var(--rp)}
+.menu a:hover{opacity:1;background:rgba(245,238,225,.07)}
+.menu a.actif{opacity:1;color:var(--or2);background:rgba(213,169,57,.13)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;font-family:var(--sans);font-weight:600;border-radius:var(--rp);transition:.25s;font-size:.92rem;padding:14px 26px;background:var(--or);color:#241a06}
 .btn:hover{background:var(--or2);transform:translateY(-2px)}
-.btn.ligne{background:transparent;color:var(--creme);border:1px solid rgba(243,235,221,.45)}
-.btn.ligne:hover{border-color:var(--or);color:var(--or2);background:transparent}
-.btn.small{padding:8px 14px;font-size:.78rem}
+.btn.ligne{background:rgba(245,238,225,.06);color:var(--creme);border:1px solid rgba(245,238,225,.16)}
+.btn.ligne:hover{border-color:var(--or);color:var(--or2);background:rgba(213,169,57,.08)}
+.btn.small{padding:9px 16px;font-size:.8rem}
 .btn.rouge{background:var(--rouge);color:#fff}
-.btn.vert{background:var(--ok);color:#10130f}
+.btn.vert{background:var(--ok);color:#0f1a13}
 .btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-#burger{display:none;background:none;border:0;color:var(--creme);font-size:1.6rem;cursor:pointer}
-/* ---- Hero ---- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 22px 80px}
-.hero::before{content:'';position:absolute;inset:0;background:url('img/hero.jpg') center/cover no-repeat;animation:zoom 22s ease-in-out infinite alternate}
-.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,18,16,.62),rgba(23,18,16,.42) 45%,var(--noir) 96%)}
-@keyframes zoom{from{transform:scale(1)}to{transform:scale(1.08)}}
-.hero>div{position:relative;z-index:2;max-width:800px}
-.hero .surtitre{animation:monte 1s .2s both}
-.hero h1{font-size:clamp(2.6rem,8.5vw,5.2rem);font-weight:900;line-height:1.04;margin:16px 0 10px;animation:monte 1s .45s both}
-.hero h1 span{color:var(--or2);font-style:italic}
-.hero p{font-size:1.08rem;color:#DDD2C0;max-width:520px;margin:0 auto 34px;animation:monte 1s .7s both}
-.hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:monte 1s .9s both}
+#burger{display:none;background:none;border:0;color:var(--creme);font-size:1.5rem;cursor:pointer;padding:4px 10px}
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding:120px 0 40px}
+.hero .fond{position:absolute;inset:14px;border-radius:34px;overflow:hidden}
+.hero .fond::before{content:'';position:absolute;inset:0;background:url('img/hero.jpg') center/cover no-repeat;animation:zoom 20s ease-in-out infinite alternate}
+.hero .fond::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,13,11,.35),rgba(16,13,11,.15) 40%,rgba(16,13,11,.88) 88%)}
+@keyframes zoom{from{transform:scale(1)}to{transform:scale(1.07)}}
+.hero .wrap{position:relative;z-index:2;width:100%}
+.hero .surtitre{animation:monte .9s .15s both}
+.hero h1{font-size:clamp(2.7rem,8vw,5.4rem);font-weight:900;line-height:1.02;margin:18px 0 12px;animation:monte .9s .35s both}
+.hero h1 i{font-family:'Playfair Display',serif;font-weight:600;color:var(--or2)}
+.hero p{font-size:1.05rem;color:#D8CDBA;max-width:520px;margin-bottom:30px;animation:monte .9s .55s both}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap;animation:monte .9s .75s both}
 @keyframes monte{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
-.souris{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;color:var(--or);font-size:1.5rem;animation:rebond 1.8s infinite}
-@keyframes rebond{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,10px)}}
-/* ---- Bandeau défilant ---- */
-.bandeau{background:var(--or);color:#231a08;overflow:hidden;padding:13px 0;white-space:nowrap}
-.bandeau div{display:inline-block;animation:defile 26s linear infinite;font-weight:500;letter-spacing:.18em;text-transform:uppercase;font-size:.82rem}
-.bandeau span{margin:0 26px}
+/* ---------- Bandeau ---------- */
+.bandeau{overflow:hidden;padding:0;margin:6px 14px;border-radius:var(--rp);background:var(--or);color:#241a06;white-space:nowrap}
+.bandeau div{display:inline-block;padding:12px 0;animation:defile 26s linear infinite;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:.76rem}
+.bandeau span{margin:0 24px}
 @keyframes defile{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-/* ---- Reveal au scroll ---- */
-.reveal{opacity:0;transform:translateY(38px);transition:opacity .8s ease,transform .8s ease}
+/* ---------- Reveal ---------- */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
 .reveal.vis{opacity:1;transform:none}
-.reveal.g{transform:translateX(-44px)}.reveal.d{transform:translateX(44px)}
-.reveal.g.vis,.reveal.d.vis{transform:none}
-/* ---- Histoire ---- */
-#histoire{background:var(--noir2)}
-.histoire-grille{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center}
-.cadre{position:relative}
-.cadre img{display:block;border-radius:3px;box-shadow:0 24px 60px rgba(0,0,0,.5)}
-.cadre::after{content:'';position:absolute;inset:-14px;border:1px solid var(--line);border-radius:3px;pointer-events:none}
-.chiffres{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
-.chiffres b{display:block;font-family:var(--serif);font-size:2.1rem;color:var(--or2)}
-.chiffres small{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.timeline{margin-top:66px;position:relative;padding-left:26px}
-.timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:1.5px;background:linear-gradient(var(--or),rgba(201,162,39,.1))}
-.jalon{position:relative;padding:0 0 34px 24px}
-.jalon::before{content:'';position:absolute;left:-26px;top:8px;width:11px;height:11px;border-radius:50%;background:var(--noir2);border:2px solid var(--or)}
-.jalon b{font-family:var(--serif);color:var(--or2);font-size:1.05rem;letter-spacing:.04em}
-.jalon h3{font-size:1.15rem;margin:2px 0 4px}
-.jalon p{color:var(--muted);font-size:.95rem;max-width:640px}
-/* ---- Équipe ---- */
-.equipe-grille{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:14px}
-.membre{background:var(--carte);border:1px solid var(--line);border-radius:3px;overflow:hidden;transition:.35s}
-.membre:hover{transform:translateY(-8px);box-shadow:0 22px 44px rgba(0,0,0,.45)}
-.membre img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;filter:saturate(.92)}
-.membre div{padding:18px 20px 22px}
-.membre h3{font-size:1.2rem}
-.membre small{color:var(--or);letter-spacing:.16em;text-transform:uppercase;font-size:.72rem;font-weight:500}
-.membre p{color:var(--muted);font-size:.9rem;margin-top:8px}
-/* ---- Produits ---- */
-#morceaux{background:var(--noir2)}
-.prod-grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-top:10px}
-.prod{background:var(--carte);border:1px solid var(--line);border-radius:3px;overflow:hidden;display:flex;flex-direction:column;transition:.35s}
-.prod:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.45)}
-.prod .ph{position:relative;height:190px;background:var(--carte2)}
+/* ---------- Produits ---------- */
+.prod-grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px}
+.prod{background:var(--carte);border:1px solid rgba(245,238,225,.07);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .35s,box-shadow .35s}
+.prod:hover{transform:translateY(-7px);box-shadow:0 24px 48px rgba(0,0,0,.45)}
+.prod .ph{position:relative;height:200px;background:var(--carte2);margin:10px;border-radius:calc(var(--r) - 10px);overflow:hidden}
 .prod .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:.6s}
 .prod:hover .ph img{transform:scale(1.06)}
 .prod .ph .badge{position:absolute;top:12px;left:12px}
-.prod .corps{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
-.prod h3{font-size:1.25rem}
-.prod .ligne-prix{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.prix{font-family:var(--serif);font-size:1.25rem;color:var(--or2);white-space:nowrap}
-.prix small{font-family:var(--sans);color:var(--muted);font-size:.78rem}
+.prod .corps{padding:10px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.prod h3{font-size:1.2rem;font-weight:800}
+.ligne-prix{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.prix{font-size:1.15rem;font-weight:800;color:var(--or2);white-space:nowrap}
+.prix small{color:var(--muted);font-size:.75rem;font-weight:500}
 .reste{color:var(--muted);font-size:.85rem}
 .prod .btn{margin-top:auto}
-.badge{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:2px;white-space:nowrap}
-.badge.dispo{background:rgba(95,169,124,.16);color:var(--ok);border:1px solid rgba(95,169,124,.4)}
-.badge.peu{background:rgba(217,154,61,.14);color:var(--warn);border:1px solid rgba(217,154,61,.4)}
-.badge.epuise{background:rgba(158,59,50,.18);color:#E08C83;border:1px solid rgba(158,59,50,.5)}
-.badge.attente{background:rgba(217,154,61,.14);color:var(--warn)}
-.badge.retiree{background:rgba(95,169,124,.16);color:var(--ok)}
+.badge{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:var(--rp);white-space:nowrap;backdrop-filter:blur(6px)}
+.badge.dispo{background:rgba(20,35,26,.75);color:var(--ok)}
+.badge.peu{background:rgba(42,31,14,.78);color:var(--warn)}
+.badge.epuise{background:rgba(46,20,16,.78);color:#EB9C90}
+.badge.attente{background:rgba(223,162,70,.14);color:var(--warn)}
+.badge.retiree{background:rgba(99,177,131,.15);color:var(--ok)}
 .badge.annulee{background:rgba(255,255,255,.07);color:var(--muted)}
-.vide{text-align:center;color:var(--muted);padding:44px 10px;border:1px dashed var(--line);border-radius:3px}
-.mes-resas{background:var(--carte);border:1px solid var(--line);border-radius:3px;padding:20px 22px;margin-bottom:30px}
-.mes-resas h3{color:var(--or2);margin-bottom:6px}
-.epuises{margin-top:40px}
-.epuises h3{color:var(--muted);font-size:1rem;margin-bottom:14px;letter-spacing:.1em;text-transform:uppercase;font-family:var(--sans);font-weight:400}
+.vide{text-align:center;color:var(--muted);padding:46px 14px;border:1.5px dashed var(--line);border-radius:var(--r)}
+.mes-resas{background:var(--carte);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;margin-bottom:26px}
+.mes-resas h3{color:var(--or2);margin-bottom:6px;font-weight:800}
+.epuises{margin-top:36px}
+.epuises h3{color:var(--muted);font-size:.8rem;margin-bottom:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
 .epuises ul{list-style:none;display:flex;flex-wrap:wrap;gap:10px}
-.epuises li{border:1px solid var(--line);color:var(--muted);padding:7px 14px;border-radius:2px;font-size:.88rem;text-decoration:line-through}
-/* ---- Contact ---- */
-.contact-grille{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:14px}
-.carte-c{display:block;background:var(--carte);border:1px solid var(--line);border-radius:3px;padding:30px;text-decoration:none;transition:.3s;position:relative;overflow:hidden}
-.carte-c:hover{transform:translateY(-6px);border-color:var(--or);box-shadow:0 20px 40px rgba(0,0,0,.4)}
-.carte-c .ico{font-size:2rem;margin-bottom:12px;display:block}
-.carte-c h3{font-size:1.3rem;margin-bottom:6px}
-.carte-c p{color:var(--muted);font-size:.93rem}
-.carte-c b{display:block;margin-top:14px;color:var(--or2);letter-spacing:.06em;font-weight:500}
-.horaires{margin-top:40px;border-top:1px solid var(--line);padding-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;text-align:center}
-.horaires b{display:block;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--or);font-weight:500;margin-bottom:4px}
-.horaires span{color:var(--muted);font-size:.88rem}
-/* ---- Footer ---- */
-footer{border-top:1px solid var(--line);padding:34px 0 40px;text-align:center;color:var(--muted);font-size:.85rem}
-footer .logo{font-size:1rem;justify-content:center;display:inline-block;margin-bottom:8px}
-#lienAdmin{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;text-decoration:underline;margin-top:10px;font-family:var(--sans)}
-#lienAdmin:hover{color:var(--or)}
-/* ---- Admin ---- */
+.epuises li{border:1px solid rgba(245,238,225,.1);color:var(--muted);padding:8px 16px;border-radius:var(--rp);font-size:.85rem;text-decoration:line-through}
+/* ---------- Histoire ---------- */
+#histoire{background:var(--noir2);border-radius:44px;margin:0 14px}
+.histoire-grille{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.cadre img{display:block;border-radius:var(--r);box-shadow:0 26px 60px rgba(0,0,0,.5)}
+.chiffres{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+.chiffres>div{background:var(--carte);border:1px solid rgba(245,238,225,.07);border-radius:20px;padding:14px 20px;flex:1;min-width:110px;text-align:center}
+.chiffres b{display:block;font-size:1.7rem;font-weight:900;color:var(--or2)}
+.chiffres small{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.timeline{margin-top:60px;display:grid;gap:14px}
+.jalon{background:var(--carte);border:1px solid rgba(245,238,225,.07);border-radius:22px;padding:20px 24px;display:grid;grid-template-columns:74px 1fr;gap:18px;align-items:start;transition:.3s}
+.jalon:hover{border-color:var(--line);transform:translateX(6px)}
+.jalon b{font-weight:900;color:var(--or2);font-size:1.05rem;background:rgba(213,169,57,.1);border-radius:14px;padding:8px 0;text-align:center}
+.jalon h3{font-size:1.05rem;font-weight:800;margin-bottom:2px}
+.jalon p{color:var(--muted);font-size:.92rem}
+/* ---------- Équipe ---------- */
+.equipe-grille{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.membre{background:var(--carte);border:1px solid rgba(245,238,225,.07);border-radius:var(--r);overflow:hidden;transition:.35s;padding:10px}
+.membre:hover{transform:translateY(-8px);box-shadow:0 22px 44px rgba(0,0,0,.45)}
+.membre img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;border-radius:calc(var(--r) - 10px)}
+.membre div{padding:16px 12px 10px}
+.membre h3{font-size:1.15rem;font-weight:800}
+.membre small{color:var(--or);letter-spacing:.12em;text-transform:uppercase;font-size:.66rem;font-weight:700}
+.membre p{color:var(--muted);font-size:.88rem;margin-top:6px}
+/* ---------- Avis ---------- */
+#avis{background:var(--noir2);border-radius:44px;margin:0 14px;overflow:hidden}
+.note-globale{display:inline-flex;align-items:center;gap:14px;background:var(--carte);border:1px solid var(--line);border-radius:var(--rp);padding:12px 22px;text-decoration:none;transition:.3s;margin-bottom:34px}
+.note-globale:hover{border-color:var(--or);transform:translateY(-2px)}
+.note-globale b{font-size:1.5rem;font-weight:900;color:var(--or2)}
+.note-globale .etoiles{color:var(--or2);letter-spacing:2px}
+.note-globale small{color:var(--muted);font-size:.8rem}
+.marquee{overflow:hidden;margin:0 -22px;padding:6px 0 10px;-webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.marquee .rail{display:flex;gap:18px;width:max-content;animation:rail 40s linear infinite}
+.marquee:hover .rail{animation-play-state:paused}
+@keyframes rail{from{transform:none}to{transform:translateX(-50%)}}
+.avis-c{width:330px;background:var(--carte);border:1px solid rgba(245,238,225,.07);border-radius:var(--r);padding:22px 24px;flex-shrink:0}
+.avis-c .etoiles{color:var(--or2);letter-spacing:2px;font-size:.9rem}
+.avis-c p{font-size:.92rem;margin:10px 0 14px;color:#DDD3C2}
+.avis-c footer{display:flex;align-items:center;gap:10px;border:0;padding:0}
+.avis-c .pastille{width:36px;height:36px;border-radius:50%;background:rgba(213,169,57,.16);color:var(--or2);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem}
+.avis-c b{font-size:.88rem;display:block}
+.avis-c small{color:var(--muted);font-size:.72rem}
+/* ---------- Contact / Map ---------- */
+.contact-grille{display:grid;grid-template-columns:1fr 1.2fr;gap:22px;align-items:stretch}
+.colg{display:grid;gap:22px}
+.carte-c{display:block;background:var(--carte);border:1px solid rgba(245,238,225,.07);border-radius:var(--r);padding:28px;text-decoration:none;transition:.3s}
+.carte-c:hover{transform:translateY(-5px);border-color:var(--or);box-shadow:0 20px 40px rgba(0,0,0,.4)}
+.carte-c .ico{font-size:1.9rem;margin-bottom:10px;display:block}
+.carte-c h3{font-size:1.2rem;font-weight:800;margin-bottom:4px}
+.carte-c p{color:var(--muted);font-size:.9rem}
+.carte-c b{display:block;margin-top:12px;color:var(--or2);font-weight:700}
+.map-bloc{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid rgba(245,238,225,.09);min-height:380px;background:var(--carte)}
+.map-bloc iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:saturate(.85) contrast(1.02)}
+.map-bloc .sur-map{position:absolute;left:14px;right:14px;bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:rgba(23,19,15,.82);backdrop-filter:blur(14px);border:1px solid rgba(245,238,225,.1);border-radius:20px;padding:12px 12px 12px 18px;text-decoration:none;transition:.3s}
+.map-bloc .sur-map:hover{border-color:var(--or)}
+.map-bloc .sur-map span{font-size:.85rem;color:var(--creme)}
+.map-bloc .sur-map span b{display:block;font-size:.95rem}
+.horaires{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.horaires>div{background:var(--carte);border:1px solid rgba(245,238,225,.07);border-radius:20px;padding:14px;text-align:center}
+.horaires b{display:block;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--or);font-weight:700;margin-bottom:4px}
+.horaires span{color:var(--muted);font-size:.85rem}
+/* ---------- Footer ---------- */
+footer{padding:40px 0 46px;text-align:center;color:var(--muted);font-size:.85rem}
+footer .logo{font-size:1rem;display:inline-block;margin-bottom:8px}
+#lienAdmin2{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;text-decoration:underline;margin-top:10px;font-family:var(--sans)}
+#lienAdmin2:hover{color:var(--or)}
+/* ---------- Admin ---------- */
 body.admin .site{display:none}
-#zoneAdmin{display:none;min-height:100vh;padding:96px 0 70px}
+#zoneAdmin{display:none;min-height:100vh;padding:110px 0 70px}
 body.admin #zoneAdmin{display:block}
-.tabs{display:flex;gap:10px;margin:18px 0 22px}
+.tabs{display:flex;gap:10px;margin:18px 0 22px;background:var(--carte);padding:6px;border-radius:var(--rp);border:1px solid rgba(245,238,225,.07)}
 .tabs .btn{flex:1}
-.tabs .btn.off{background:transparent;color:var(--muted);border:1px solid var(--line)}
-.carte-a{background:var(--carte);border:1px solid var(--line);border-radius:3px;padding:16px 18px;margin-bottom:12px}
+.tabs .btn.off{background:transparent;color:var(--muted);border:0}
+.carte-a{background:var(--carte);border:1px solid rgba(245,238,225,.07);border-radius:22px;padding:18px 20px;margin-bottom:12px}
 .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .muted{color:var(--muted);font-size:.88rem}
 .stock-ctrl{display:flex;align-items:center;gap:8px}
-.stock-ctrl b{min-width:56px;text-align:center;font-size:1.02rem}
-.mini{width:60px;height:60px;object-fit:cover;border-radius:3px;flex-shrink:0;background:var(--carte2)}
-.mini.ph{display:flex;align-items:center;justify-content:center;font-size:1.6rem}
-/* ---- Dialogs / formulaires ---- */
-dialog{border:1px solid var(--line);border-radius:4px;padding:26px;max-width:440px;width:92%;margin:auto;background:var(--noir2);color:var(--creme)}
-dialog::backdrop{background:rgba(10,7,5,.7);backdrop-filter:blur(3px)}
-dialog h3{font-size:1.35rem;margin-bottom:4px}
-label{display:block;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--or);margin:14px 0 6px}
-input,select{width:100%;padding:11px 12px;border:1px solid rgba(243,235,221,.22);border-radius:2px;font-size:1rem;background:var(--carte);color:var(--creme);font-family:var(--sans)}
+.stock-ctrl b{min-width:56px;text-align:center;font-size:1rem}
+.mini{width:58px;height:58px;object-fit:cover;border-radius:16px;flex-shrink:0;background:var(--carte2)}
+.mini.ph{display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+/* ---------- Dialogs ---------- */
+dialog{border:1px solid rgba(245,238,225,.1);border-radius:28px;padding:26px;max-width:440px;width:92%;margin:auto;background:var(--noir2);color:var(--creme)}
+dialog::backdrop{background:rgba(8,6,4,.72);backdrop-filter:blur(4px)}
+dialog h3{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--or);margin:14px 0 6px}
+input,select{width:100%;padding:12px 14px;border:1.5px solid rgba(245,238,225,.14);border-radius:16px;font-size:1rem;background:var(--carte);color:var(--creme);font-family:var(--sans)}
 input:focus,select:focus{outline:none;border-color:var(--or)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .imgbtns{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
-#pApercu{width:100%;height:130px;object-fit:cover;border-radius:3px;margin-top:10px;background:var(--carte)}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--or);color:#1d1508;padding:12px 22px;border-radius:2px;font-size:.92rem;font-weight:500;opacity:0;transition:.3s;pointer-events:none;z-index:99;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#pApercu{width:100%;height:130px;object-fit:cover;border-radius:16px;margin-top:10px;background:var(--carte)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--or);color:#241a06;padding:13px 24px;border-radius:var(--rp);font-size:.92rem;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:99;box-shadow:0 12px 34px rgba(0,0,0,.5)}
 .toast.on{opacity:1}
-/* ---- Responsive ---- */
-@media(max-width:820px){
+/* ---------- Responsive ---------- */
+@media(max-width:840px){
   .histoire-grille,.contact-grille{grid-template-columns:1fr}
   .equipe-grille{grid-template-columns:1fr;max-width:380px;margin-inline:auto}
-  .menu{position:fixed;inset:0 0 auto 0;top:0;background:rgba(23,18,16,.98);flex-direction:column;padding:86px 22px 30px;gap:20px;transform:translateY(-110%);transition:.35s;box-shadow:0 20px 40px rgba(0,0,0,.5)}
-  .menu.ouvert{transform:none}
-  #burger{display:block;z-index:60}
-  section{padding:66px 0}
+  .menu{position:fixed;top:76px;left:12px;right:12px;background:rgba(23,19,15,.97);backdrop-filter:blur(18px);flex-direction:column;padding:18px;gap:6px;border-radius:28px;border:1px solid rgba(245,238,225,.1);transform:translateY(-16px);opacity:0;pointer-events:none;transition:.3s;align-items:stretch;text-align:center}
+  .menu.ouvert{transform:none;opacity:1;pointer-events:auto}
+  #burger{display:block}
+  section{padding:64px 0}
   .grid2{grid-template-columns:1fr}
+  .jalon{grid-template-columns:1fr;gap:8px}
+  .jalon b{width:90px}
+  .map-bloc{min-height:320px}
 }
 </style>
 </head>
 <body>
 
+<div id="loader">
+  <div class="marque">L'AILE <i>ou</i> LA CUISSE</div>
+  <div class="piste"><div class="poulet"></div></div>
+  <small>La vitrine arrive…</small>
+</div>
+
 <nav id="nav">
-  <div class="wrap">
-    <a class="logo" href="#accueil">L'AILE OU LA CUISSE<em>Boucherie familiale · 1898</em></a>
-    <ul class="menu" id="menu">
-      <li><a href="#histoire">Notre histoire</a></li>
-      <li><a href="#equipe">L'équipe</a></li>
-      <li><a href="#morceaux">Les morceaux</a></li>
-      <li><a href="#contact">Nous trouver</a></li>
-      <li><a class="btn small" href="tel:0601227015">☎ 06 01 22 70 15</a></li>
-    </ul>
+  <a class="logo" href="#accueil">L'AILE OU LA CUISSE<em>Boucherie · Lyon 8ᵉ</em></a>
+  <ul class="menu" id="menu">
+    <li><a href="#morceaux">Les morceaux</a></li>
+    <li><a href="#histoire">Notre histoire</a></li>
+    <li><a href="#equipe">L'équipe</a></li>
+    <li><a href="#avis">Avis</a></li>
+    <li><a href="#contact">Nous trouver</a></li>
+  </ul>
+  <div style="display:flex;gap:8px;align-items:center">
+    <a class="btn small" href="tel:0601227015">☎ Appeler</a>
+    <button class="btn ligne small" id="lienAdmin" title="Espace boucher">🔑</button>
     <button id="burger" aria-label="Menu">☰</button>
   </div>
 </nav>
 
 <div class="site">
 <header class="hero" id="accueil">
-  <div>
-    <span class="surtitre">Maison Dubois — depuis 1898</span>
-    <h1>L'Aile <span>ou</span> la Cuisse</h1>
-    <p>Cinq générations de bouchers passionnés. Des viandes d'exception, sélectionnées, maturées et préparées dans le respect de la tradition française.</p>
+  <div class="fond"></div>
+  <div class="wrap">
+    <span class="surtitre">Maison Dubois · depuis 1898</span>
+    <h1>L'Aile <i>ou</i> la Cuisse</h1>
+    <p>Cinq générations de bouchers passionnés à Lyon. Des viandes d'exception, sélectionnées, maturées et préparées dans le respect de la tradition.</p>
     <div class="ctas">
-      <a class="btn" href="#morceaux">Découvrir les morceaux du jour</a>
-      <a class="btn ligne" href="tel:0601227015">Réserver par téléphone</a>
+      <a class="btn" href="#morceaux">Réserver un morceau</a>
+      <a class="btn ligne" href="tel:0601227015">☎ 06 01 22 70 15</a>
     </div>
   </div>
-  <a class="souris" href="#histoire" aria-label="Défiler">↓</a>
 </header>
 
-<div class="bandeau" aria-hidden="true">
-  <div id="bandeauTxt"></div>
-</div>
+<div class="bandeau" aria-hidden="true"><div id="bandeauTxt"></div></div>
+
+<section id="morceaux">
+  <div class="wrap">
+    <span class="surtitre reveal">La vitrine du jour</span>
+    <h2 class="h2 reveal">Les morceaux disponibles</h2>
+    <p class="sous reveal">Stock mis à jour chaque matin. Réservez en ligne, retirez en boutique — vos morceaux vous attendent.</p>
+    <div id="listeProduits"></div>
+  </div>
+</section>
 
 <section id="histoire">
   <div class="wrap">
     <div class="histoire-grille">
-      <div class="cadre reveal g"><img src="img/vintage.jpg" alt="La boucherie Dubois en 1912" loading="lazy"></div>
-      <div class="reveal d">
+      <div class="cadre reveal"><img src="img/vintage.jpg" alt="La boucherie en 1912" loading="lazy"></div>
+      <div class="reveal">
         <span class="surtitre">Notre histoire</span>
-        <h2 class="h2">Une passion transmise<br>de père en fils… et en fille</h2>
-        <div class="filet"></div>
-        <p>Tout commence en 1898, quand Marcel Dubois ouvre sa première boucherie. Plus d'un siècle plus tard, la même exigence anime la maison : des bêtes choisies une à une chez nos éleveurs partenaires, une maturation maîtrisée, et ce geste précis qui ne s'apprend que d'une génération à l'autre.</p>
+        <h2 class="h2">Une passion transmise de père en fils… et en fille</h2>
+        <p class="sous" style="margin-bottom:0">Tout commence en 1898, quand Marcel Dubois ouvre sa première boucherie. Plus d'un siècle plus tard, la même exigence anime la maison : des bêtes choisies une à une, une maturation maîtrisée, un geste transmis de génération en génération.</p>
         <div class="chiffres">
           <div><b id="c1">128</b><small>ans de métier</small></div>
-          <div><b id="c2">5</b><small>générations</small></div>
-          <div><b id="c3">100%</b><small>artisanal</small></div>
+          <div><b>5</b><small>générations</small></div>
+          <div><b>100%</b><small>artisanal</small></div>
         </div>
       </div>
     </div>
     <div class="timeline">
-      <div class="jalon reveal"><b>1898</b><h3>Marcel Dubois fonde la maison</h3><p>Une petite échoppe, une grande idée : ne vendre que ce qu'on servirait à sa propre table.</p></div>
-      <div class="jalon reveal"><b>1931</b><h3>Henri, la deuxième génération</h3><p>Henri développe la charcuterie maison et fait de la boutique une adresse incontournable du quartier.</p></div>
-      <div class="jalon reveal"><b>1968</b><h3>Georges modernise la boutique</h3><p>Nouvelles vitrines réfrigérées, mêmes valeurs : Georges noue des partenariats directs avec les éleveurs de la région.</p></div>
-      <div class="jalon reveal"><b>1995</b><h3>Alain, maître artisan boucher</h3><p>Meilleur ouvrier de son cœur de métier, Alain introduit la maturation longue et rebaptise la maison « L'Aile ou la Cuisse ».</p></div>
-      <div class="jalon reveal"><b>2020</b><h3>Camille, la cinquième génération</h3><p>Camille reprend le flambeau aux côtés de son père et ouvre la maison au numérique — dont ce service de réservation.</p></div>
+      <div class="jalon reveal"><b>1898</b><div><h3>Marcel Dubois fonde la maison</h3><p>Une petite échoppe, une grande idée : ne vendre que ce qu'on servirait à sa propre table.</p></div></div>
+      <div class="jalon reveal"><b>1931</b><div><h3>Henri, la deuxième génération</h3><p>Henri développe la charcuterie maison et fait de la boutique une adresse incontournable du quartier.</p></div></div>
+      <div class="jalon reveal"><b>1968</b><div><h3>Georges modernise la boutique</h3><p>Nouvelles vitrines réfrigérées, mêmes valeurs : Georges noue des partenariats directs avec les éleveurs de la région.</p></div></div>
+      <div class="jalon reveal"><b>1995</b><div><h3>Alain, maître artisan boucher</h3><p>Alain introduit la maturation longue et rebaptise la maison « L'Aile ou la Cuisse ».</p></div></div>
+      <div class="jalon reveal"><b>2020</b><div><h3>Camille, la cinquième génération</h3><p>Camille reprend le flambeau aux côtés de son père et ouvre la maison au numérique — dont ce service de réservation.</p></div></div>
     </div>
   </div>
 </section>
@@ -242,43 +292,52 @@ input:focus,select:focus{outline:none;border-color:var(--or)}
   <div class="wrap">
     <span class="surtitre reveal">Ceux qui font la maison</span>
     <h2 class="h2 reveal">L'équipe à votre service</h2>
-    <div class="filet reveal"></div>
-    <div class="equipe-grille">
-      <article class="membre reveal"><img src="img/patron.jpg" alt="Alain Dubois" loading="lazy"><div><small>Maître artisan boucher · 4ᵉ génération</small><h3>Alain Dubois</h3><p>45 ans de métier, un œil infaillible pour choisir les bêtes et une passion intacte pour la maturation.</p></div></article>
+    <div class="equipe-grille" style="margin-top:26px">
+      <article class="membre reveal"><img src="img/patron.jpg" alt="Alain Dubois" loading="lazy"><div><small>Maître artisan · 4ᵉ génération</small><h3>Alain Dubois</h3><p>45 ans de métier, un œil infaillible pour choisir les bêtes, une passion intacte pour la maturation.</p></div></article>
       <article class="membre reveal"><img src="img/fille.jpg" alt="Camille Dubois" loading="lazy"><div><small>Bouchère · 5ᵉ génération</small><h3>Camille Dubois</h3><p>Formée par son père, elle perpétue le geste familial et imagine la boucherie de demain.</p></div></article>
       <article class="membre reveal"><img src="img/apprenti.jpg" alt="Théo" loading="lazy"><div><small>Apprenti boucher</small><h3>Théo</h3><p>La relève ! Théo apprend le métier avec le sourire et prépare vos commandes aux petits oignons.</p></div></article>
     </div>
   </div>
 </section>
 
-<section id="morceaux">
+<section id="avis">
   <div class="wrap">
-    <span class="surtitre reveal">La vitrine du jour</span>
-    <h2 class="h2 reveal">Les morceaux disponibles</h2>
-    <div class="filet reveal"></div>
-    <p class="reveal" style="max-width:560px;color:var(--muted);margin-bottom:34px">Le stock est mis à jour chaque matin par nos soins. Réservez en ligne, réglez et retirez en boutique — vos morceaux vous attendent.</p>
-    <div id="listeProduits"></div>
+    <span class="surtitre reveal">Ils nous font confiance</span>
+    <h2 class="h2 reveal">Ce que disent nos clients</h2>
+    <a class="note-globale reveal" href="https://maps.app.goo.gl/4rFeTA7kJvqh86666" target="_blank" rel="noopener">
+      <b>4,1</b><span class="etoiles">★★★★☆</span><small>40 avis Google<br>Voir sur Maps →</small>
+    </a>
   </div>
+  <div class="marquee"><div class="rail" id="railAvis"></div></div>
 </section>
 
 <section id="contact">
   <div class="wrap">
     <span class="surtitre reveal">Nous trouver</span>
     <h2 class="h2 reveal">Passez nous voir, ou appelez-nous</h2>
-    <div class="filet reveal"></div>
-    <div class="contact-grille">
-      <a class="carte-c reveal g" href="tel:0601227015">
-        <span class="ico">☎️</span>
-        <h3>Réserver par téléphone</h3>
-        <p>Un doute sur une pièce, une envie particulière, une commande pour un événement ? Appelez-nous, on s'occupe de tout.</p>
-        <b>06 01 22 70 15 →</b>
-      </a>
-      <a class="carte-c reveal d" href="https://maps.app.goo.gl/4rFeTA7kJvqh86666?g_st=ic" target="_blank" rel="noopener">
-        <span class="ico">📍</span>
-        <h3>Venir en boutique</h3>
-        <p>Retrouvez-nous derrière notre belle vitrine. Cliquez pour ouvrir l'itinéraire dans Google Maps.</p>
-        <b>Ouvrir dans Google Maps →</b>
-      </a>
+    <div class="contact-grille" style="margin-top:26px">
+      <div class="colg">
+        <a class="carte-c reveal" href="tel:0601227015">
+          <span class="ico">☎️</span>
+          <h3>Réserver par téléphone</h3>
+          <p>Une envie particulière, une commande pour un événement ? Appelez-nous, on s'occupe de tout.</p>
+          <b>06 01 22 70 15 →</b>
+        </a>
+        <div class="carte-c reveal" style="cursor:default">
+          <span class="ico">📍</span>
+          <h3>L'adresse</h3>
+          <p>269 avenue Berthelot<br>69008 Lyon</p>
+          <b>Métro D · Tramway T2</b>
+        </div>
+      </div>
+      <div class="map-bloc reveal">
+        <iframe title="Plan d'accès" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=269+Avenue+Berthelot,+69008+Lyon&z=16&output=embed"></iframe>
+        <a class="sur-map" href="https://maps.app.goo.gl/4rFeTA7kJvqh86666" target="_blank" rel="noopener">
+          <span><b>L'Aile ou la Cuisse</b>269 av. Berthelot, Lyon 8ᵉ</span>
+          <span class="btn small">Ouvrir l'itinéraire</span>
+        </a>
+      </div>
     </div>
     <div class="horaires reveal">
       <div><b>Mar – Ven</b><span>8h30 – 13h · 15h30 – 19h30</span></div>
@@ -292,8 +351,8 @@ input:focus,select:focus{outline:none;border-color:var(--or)}
 <footer>
   <div class="wrap">
     <span class="logo">L'AILE OU LA CUISSE</span>
-    <p>Boucherie familiale depuis 1898 · Maison Dubois · <a href="tel:0601227015">06 01 22 70 15</a></p>
-    <button id="lienAdmin">Espace boucher</button>
+    <p>Boucherie familiale depuis 1898 · 269 av. Berthelot, Lyon 8ᵉ · <a href="tel:0601227015">06 01 22 70 15</a></p>
+    <button id="lienAdmin2">Espace boucher</button>
   </div>
 </footer>
 </div><!-- /site -->
@@ -317,7 +376,7 @@ input:focus,select:focus{outline:none;border-color:var(--or)}
     <label>Remarque</label><input id="rNote" maxlength="120" placeholder="Ex : coupé en tranches">
     <div class="row" style="margin-top:20px">
       <button type="button" class="btn ligne small" onclick="dlgResa.close()">Annuler</button>
-      <button type="submit" class="btn">Confirmer la réservation</button>
+      <button type="submit" class="btn">Confirmer</button>
     </div>
   </form>
 </dialog>
@@ -351,6 +410,16 @@ input:focus,select:focus{outline:none;border-color:var(--or)}
 
 <script>
 'use strict';
+// ---------- Écran de chargement ----------
+(function(){
+  const l=document.getElementById('loader');
+  const fin=()=>l.classList.add('fini');
+  const t0=Date.now();
+  window.addEventListener('load',()=>setTimeout(fin,Math.max(0,1600-(Date.now()-t0))));
+  setTimeout(fin,3500); // garde-fou
+  l.addEventListener('click',fin);
+})();
+
 // ---------- Données (localStorage) ----------
 const K='boucherieApp_v1';
 const defaut={pin:'1234',v:2,pieces:[
@@ -376,7 +445,6 @@ const fmtDate=d=>new Date(d+'T00:00').toLocaleDateString('fr-FR',{weekday:'short
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2600)}
 const badgeStock=p=>p.stock<=0?'<span class="badge epuise">Épuisé</span>':p.stock<=2?'<span class="badge peu">Bientôt épuisé</span>':'<span class="badge dispo">Disponible</span>';
 
-// Redimensionne + compresse une photo avant stockage
 function lireImage(fichier,cb){
   const img=new Image();
   img.onload=()=>{
@@ -391,7 +459,7 @@ function lireImage(fichier,cb){
   img.src=URL.createObjectURL(fichier);
 }
 
-// ---------- Vitrine (produits) ----------
+// ---------- Vitrine ----------
 function vueClient(){
   const dispo=db.pieces.filter(p=>p.stock>0);
   const monTel=localStorage.getItem(K+'_tel')||'';
@@ -411,7 +479,7 @@ function vueClient(){
         <div class="corps">
           <div class="ligne-prix"><h3>${esc(p.nom)}</h3><span class="prix">${eur(p.prix)} <small>/ ${p.unite}</small></span></div>
           <span class="reste">Il reste ${fmtQ(p.stock,p.unite)}</span>
-          <button class="btn" onclick="ouvrirResa(${p.id})">Réserver ce morceau</button>
+          <button class="btn" onclick="ouvrirResa(${p.id})">Réserver</button>
         </div>
       </article>`;
     });
@@ -458,6 +526,20 @@ $('formResa').addEventListener('submit',e=>{
   toast('✅ Réservation enregistrée — à très vite !');
 });
 
+// ---------- Avis ----------
+const avis=[
+  {p:'Client Google',n:5,t:'Prix très abordables et la viande est incomparable — la tendreté et le goût sont délicieux. J\'ai pris un lot de pot-au-feu avec paleron, un régal.'},
+  {p:'Client Google',n:5,t:'Personnel et patrons au top. Boucherie très propre avec un très bon choix !'},
+  {p:'Nadia',n:5,t:'Des conseils toujours justes, une viande d\'une fraîcheur irréprochable. La réservation en ligne est super pratique.'},
+  {p:'Laurent',n:5,t:'L\'entrecôte maturée est exceptionnelle. On sent le savoir-faire d\'une vraie maison familiale.'},
+  {p:'Sofia',n:4,t:'Accueil chaleureux, belles pièces en vitrine. Je réserve mon poulet fermier chaque semaine, il est toujours prêt à l\'heure.'},
+  {p:'Marc',n:5,t:'Enfin une boucherie où l\'on peut réserver son morceau à l\'avance ! Qualité constante, équipe adorable.'}
+];
+(function(){
+  const carte=a=>`<div class="avis-c"><span class="etoiles">${'★'.repeat(a.n)}${'☆'.repeat(5-a.n)}</span><p>« ${esc(a.t)} »</p><footer><span class="pastille">${esc(a.p[0])}</span><span><b>${esc(a.p)}</b><small>Avis Google</small></span></footer></div>`;
+  $('railAvis').innerHTML=avis.map(carte).join('')+avis.map(carte).join('');
+})();
+
 // ---------- Espace boucher ----------
 let ongletAdmin='stock';
 const photoMini=p=>p.img?`<img class="mini" src="${p.img}" alt="">`:'<div class="mini ph">🥩</div>';
@@ -472,7 +554,7 @@ function vueAdmin(){
     if(!db.pieces.length)h+='<div class="vide">Aucune pièce. Ajoutez-en une !</div>';
     db.pieces.forEach(p=>{
       h+=`<div class="carte-a"><div class="row">
-        <div style="display:flex;gap:12px;align-items:center">${photoMini(p)}<div><h3 style="font-size:1.05rem">${esc(p.nom)}</h3><span class="muted">${eur(p.prix)} / ${p.unite}</span> ${badgeStock(p)}</div></div>
+        <div style="display:flex;gap:12px;align-items:center">${photoMini(p)}<div><h3 style="font-size:1.02rem;font-weight:800">${esc(p.nom)}</h3><span class="muted">${eur(p.prix)} / ${p.unite}</span> ${badgeStock(p)}</div></div>
         <div class="stock-ctrl">
           <button class="btn ligne small" onclick="majStock(${p.id},-1)">−</button>
           <b>${p.stock}${p.unite==='kg'?' kg':''}</b>
@@ -492,7 +574,7 @@ function vueAdmin(){
     const carte=r=>{
       const lib={attente:'En attente',retiree:'Retirée',annulee:'Annulée'}[r.statut];
       return `<div class="carte-a"${r.statut!=='attente'?' style="opacity:.55"':''}><div class="row">
-        <div><h3 style="font-size:1.05rem">${esc(r.pieceNom)} — ${fmtQ(r.qte,r.unite)}</h3>
+        <div><h3 style="font-size:1.02rem;font-weight:800">${esc(r.pieceNom)} — ${fmtQ(r.qte,r.unite)}</h3>
         <div class="muted">👤 ${esc(r.nom)} · 📞 <a href="tel:${esc(r.tel)}">${esc(r.tel)}</a></div>
         <div class="muted">Retrait ${fmtDate(r.date)}${r.note?' · «&nbsp;'+esc(r.note)+'&nbsp;»':''}</div></div>
         <span class="badge ${r.statut}">${lib}</span></div>
@@ -502,7 +584,7 @@ function vueAdmin(){
         </div>`:''}</div>`;
     };
     actives.forEach(r=>h+=carte(r));
-    if(passees.length){h+='<h3 style="font-size:.9rem;margin:20px 0 10px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-family:var(--sans)">Historique</h3>';passees.slice(0,20).forEach(r=>h+=carte(r))}
+    if(passees.length){h+='<h3 style="font-size:.8rem;margin:20px 0 10px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase">Historique</h3>';passees.slice(0,20).forEach(r=>h+=carte(r))}
   }
   h+=`<div style="text-align:center;margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
     <button class="btn ligne small" onclick="changerPin()">🔑 Changer le code</button>
@@ -525,7 +607,6 @@ window.changerPin=()=>{const a=prompt('Code actuel :');if(a===null)return;
   if(n&&n.length>=4){db.pin=n;save();toast('Code modifié ✅')}};
 window.quitterAdmin=()=>{admin=false;render();window.scrollTo({top:0})};
 
-// Pièce : ajout / édition
 let pieceEdit=null,imgEnCours=null;
 function majApercu(src){
   $('pApercu').hidden=!src;if(src)$('pApercu').src=src;
@@ -567,11 +648,14 @@ $('formPiece').addEventListener('submit',e=>{
 });
 
 // ---------- Bascule client / boucher ----------
-$('lienAdmin').addEventListener('click',()=>{
+function demandeAdmin(){
+  if(admin){admin=false;render();return}
   const c=prompt('Code boucher :');
   if(c===db.pin){admin=true;render();window.scrollTo({top:0})}
   else if(c!==null)toast('Code incorrect');
-});
+}
+$('lienAdmin').addEventListener('click',demandeAdmin);
+$('lienAdmin2').addEventListener('click',demandeAdmin);
 function render(){
   document.body.classList.toggle('admin',admin);
   if(admin)vueAdmin();else vueClient();
@@ -589,25 +673,20 @@ obs=new IntersectionObserver(entries=>{
   entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('vis');obs.unobserve(en.target)}});
 },{threshold:.12});
 
-// Nav : fond au scroll + lien actif
 const nav=$('nav');
 const liens=[...document.querySelectorAll('.menu a[href^="#"]')];
 const sections=liens.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
 const obsNav=new IntersectionObserver(entries=>{
   entries.forEach(en=>{
-    if(en.isIntersecting){
-      liens.forEach(a=>a.classList.toggle('actif',a.getAttribute('href')==='#'+en.target.id));
-    }
+    if(en.isIntersecting)liens.forEach(a=>a.classList.toggle('actif',a.getAttribute('href')==='#'+en.target.id));
   });
-},{rootMargin:'-40% 0px -55% 0px'});
+},{rootMargin:'-35% 0px -55% 0px'});
 sections.forEach(s=>obsNav.observe(s));
-addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>40),{passive:true});
+addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>30),{passive:true});
 
-// Menu mobile
 $('burger').addEventListener('click',()=>$('menu').classList.toggle('ouvert'));
 document.querySelectorAll('.menu a').forEach(a=>a.addEventListener('click',()=>$('menu').classList.remove('ouvert')));
 
-// Compteur animé "128 ans"
 const obsC=new IntersectionObserver(en=>{
   if(en[0].isIntersecting){
     obsC.disconnect();
