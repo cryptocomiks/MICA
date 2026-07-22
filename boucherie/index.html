@@ -44,6 +44,11 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 .toast.on{opacity:1}
 .stock-ctrl{display:flex;align-items:center;gap:8px}
 .stock-ctrl b{min-width:52px;text-align:center}
+.photo{width:100%;height:150px;object-fit:cover;border-radius:10px;margin-bottom:10px;display:block;background:#EFE7DC}
+.photo.mini{width:64px;height:64px;margin:0;flex-shrink:0}
+.ph{display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:#C9B8A5}
+.imgbtns{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+#pApercu{width:100%;height:120px;object-fit:cover;border-radius:10px;margin-top:8px;background:#EFE7DC}
 @media(max-width:420px){.grid2{grid-template-columns:1fr}}
 </style>
 </head>
@@ -81,6 +86,15 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
       <div><label>Unité</label><select id="pUnite"><option value="kg">/ kg</option><option value="pièce">/ pièce</option></select></div>
     </div>
     <label>Stock du jour *</label><input id="pStock" type="number" min="0" step="0.1" required>
+    <label>Photo</label>
+    <div class="imgbtns">
+      <button type="button" class="btn sec small" onclick="pCam.click()">📷 Prendre une photo</button>
+      <button type="button" class="btn sec small" onclick="pFichier.click()">🖼️ Choisir une image</button>
+      <button type="button" class="btn danger small" id="pImgSuppr" onclick="supprImage()" hidden>Retirer</button>
+    </div>
+    <input type="file" id="pCam" accept="image/*" capture="environment" hidden>
+    <input type="file" id="pFichier" accept="image/*" hidden>
+    <img id="pApercu" alt="" hidden>
     <div class="row" style="margin-top:14px">
       <button type="button" class="btn sec" onclick="dlgPiece.close()">Annuler</button>
       <button type="submit" class="btn">Enregistrer</button>
@@ -116,6 +130,22 @@ const fmtQ=(q,u)=>(u==='kg'?q+' kg':q+(q>1?' pièces':' pièce'));
 const fmtDate=d=>new Date(d+'T00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500)}
 const badgeStock=p=>p.stock<=0?'<span class="badge epuise">Épuisé</span>':p.stock<=2?'<span class="badge peu">Bientôt épuisé</span>':'<span class="badge dispo">Disponible</span>';
+const photoHTML=(p,mini)=>p.img?`<img class="photo${mini?' mini':''}" src="${p.img}" alt="${esc(p.nom)}" loading="lazy">`:(mini?`<div class="photo mini ph">🥩</div>`:'');
+
+// Redimensionne + compresse une photo (max 720px, JPEG) avant stockage
+function lireImage(fichier,cb){
+  const img=new Image();
+  img.onload=()=>{
+    const max=720,r=Math.min(1,max/Math.max(img.width,img.height));
+    const c=document.createElement('canvas');
+    c.width=Math.round(img.width*r);c.height=Math.round(img.height*r);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    URL.revokeObjectURL(img.src);
+    cb(c.toDataURL('image/jpeg',.72));
+  };
+  img.onerror=()=>{URL.revokeObjectURL(img.src);toast('Image illisible')};
+  img.src=URL.createObjectURL(fichier);
+}
 
 // ---------- Vue client ----------
 function vueClient(){
@@ -132,7 +162,7 @@ function vueClient(){
   h+='<h2 style="font-size:1.05rem;margin:6px 0 10px">Morceaux disponibles aujourd\'hui</h2>';
   if(!dispo.length)h+='<div class="vide">Aucun morceau disponible pour le moment.<br>Revenez plus tard !</div>';
   dispo.forEach(p=>{
-    h+=`<div class="card"><div class="row">
+    h+=`<div class="card">${photoHTML(p)}<div class="row">
       <div><h3>${esc(p.nom)}</h3><span class="muted">Reste : ${fmtQ(p.stock,p.unite)}</span> ${badgeStock(p)}</div>
       <div style="text-align:right"><div class="prix">${eur(p.prix)} <span class="muted">/ ${p.unite}</span></div>
       <button class="btn small" style="margin-top:6px" onclick="ouvrirResa(${p.id})">Réserver</button></div>
@@ -191,7 +221,7 @@ function vueAdmin(){
     if(!db.pieces.length)h+='<div class="vide">Aucune pièce. Ajoutez-en une !</div>';
     db.pieces.forEach(p=>{
       h+=`<div class="card"><div class="row">
-        <div><h3>${esc(p.nom)}</h3><span class="muted">${eur(p.prix)} / ${p.unite}</span> ${badgeStock(p)}</div>
+        <div style="display:flex;gap:10px;align-items:center">${photoHTML(p,true)}<div><h3>${esc(p.nom)}</h3><span class="muted">${eur(p.prix)} / ${p.unite}</span> ${badgeStock(p)}</div></div>
         <div class="stock-ctrl">
           <button class="btn sec small" onclick="majStock(${p.id},-1)">−</button>
           <b>${p.stock}${p.unite==='kg'?' kg':''}</b>
@@ -242,23 +272,44 @@ window.changerPin=()=>{const a=prompt('Code actuel :');if(a===null)return;
   if(n&&n.length>=4){db.pin=n;save();toast('Code modifié ✅')}};
 
 // Pièce : ajout / édition
-let pieceEdit=null;
+let pieceEdit=null,imgEnCours=null; // imgEnCours : null = inchangée, '' = retirée, sinon dataURL
+function majApercu(src){
+  $('pApercu').hidden=!src;if(src)$('pApercu').src=src;
+  $('pImgSuppr').hidden=!src;
+}
 window.ouvrirPiece=function(id){
   pieceEdit=id?db.pieces.find(p=>p.id===id):null;
+  imgEnCours=null;
   $('dlgPieceTitre').textContent=pieceEdit?'Modifier la pièce':'Ajouter une pièce';
   $('pNom').value=pieceEdit?pieceEdit.nom:'';
   $('pPrix').value=pieceEdit?pieceEdit.prix:'';
   $('pUnite').value=pieceEdit?pieceEdit.unite:'kg';
   $('pStock').value=pieceEdit?pieceEdit.stock:'';
+  majApercu(pieceEdit&&pieceEdit.img||'');
   dlgPiece.showModal();
 };
+function chargeFichier(e){
+  const f=e.target.files[0];e.target.value='';
+  if(!f)return;
+  lireImage(f,url=>{imgEnCours=url;majApercu(url)});
+}
+$('pCam').addEventListener('change',chargeFichier);
+$('pFichier').addEventListener('change',chargeFichier);
+window.supprImage=()=>{imgEnCours='';majApercu('')};
 $('formPiece').addEventListener('submit',e=>{
   e.preventDefault();
   const d={nom:$('pNom').value.trim(),prix:parseFloat($('pPrix').value),unite:$('pUnite').value,stock:parseFloat($('pStock').value)};
   if(!d.nom||isNaN(d.prix)||isNaN(d.stock))return;
-  if(pieceEdit)Object.assign(pieceEdit,d);
+  if(imgEnCours!==null)d.img=imgEnCours||undefined;
+  else if(pieceEdit&&pieceEdit.img)d.img=pieceEdit.img;
+  if(pieceEdit){delete pieceEdit.img;Object.assign(pieceEdit,d)}
   else db.pieces.push(Object.assign({id:db.nextId++},d));
-  save();dlgPiece.close();render();toast('Enregistré ✅');
+  let msg='Enregistré ✅';
+  try{save()}catch(err){ // quota localStorage dépassé
+    delete d.img;if(pieceEdit)delete pieceEdit.img;save();
+    msg='⚠️ Mémoire pleine : enregistré sans photo';
+  }
+  dlgPiece.close();render();toast(msg);
 });
 
 // ---------- Bascule client / admin ----------

@@ -7,6 +7,19 @@ Un seul fichier (`index.html`), aucune installation. Ouvrez-le dans un navigateu
 - Réserver à l'avance : quantité, date de retrait, remarque — le stock se décompte automatiquement
 - Suivi de « Mes réservations » sur son appareil
 
+## Photos des morceaux
+Chaque pièce peut avoir une photo, visible par les clients. Dans l'espace boucher → Modifier une pièce :
+- **📷 Prendre une photo** : ouvre directement l'appareil photo du téléphone
+- **🖼️ Choisir une image** : depuis la galerie (par ex. une image générée avec Gemini)
+- Les images sont automatiquement redimensionnées et compressées (rapides à charger)
+
+### Générer des images réalistes avec Gemini
+Ouvrez l'appli Gemini (ou gemini.google.com), collez un prompt ci-dessous, enregistrez l'image sur le téléphone, puis déposez-la via « 🖼️ Choisir une image » :
+
+> Photo professionnelle très réaliste d'une entrecôte de bœuf crue persillée, posée sur un billot de boucher en bois, éclairage doux de vitrine de boucherie artisanale française, format paysage
+
+Remplacez « entrecôte de bœuf crue persillée » par : *filet de bœuf*, *côtes de porc*, *poulet fermier entier*, *merguez fraîches*, *gigot d'agneau*… en gardant le reste du prompt pour un style homogène.
+
 ## Côté boucher (bouton « Espace boucher », code par défaut : **1234**)
 - **Stock du jour** : ajouter / modifier / supprimer des pièces, ajuster le stock en un clic (+/−, bouton « Épuisé »)
 - **Réservations** : liste avec nom, téléphone (cliquable), date de retrait ; marquer « Retirée » ou « Annuler » (le stock est remis automatiquement)
