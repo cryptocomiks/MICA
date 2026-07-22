@@ -108,16 +108,18 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 'use strict';
 // ---------- Données (localStorage) ----------
 const K='boucherieApp_v1';
-const defaut={pin:'1234',pieces:[
-  {id:1,nom:'Entrecôte',prix:28.9,unite:'kg',stock:6},
-  {id:2,nom:'Filet de bœuf',prix:39.5,unite:'kg',stock:3},
-  {id:3,nom:'Côte de porc',prix:12.9,unite:'kg',stock:8},
-  {id:4,nom:'Poulet fermier',prix:11.5,unite:'pièce',stock:5},
-  {id:5,nom:'Merguez (les 6)',prix:7.2,unite:'pièce',stock:10},
-  {id:6,nom:'Gigot d\'agneau',prix:24.9,unite:'kg',stock:4}
+const defaut={pin:'1234',v:2,pieces:[
+  {id:1,nom:'Entrecôte',prix:28.9,unite:'kg',stock:6,img:'img/entrecote.jpg'},
+  {id:2,nom:'Filet de bœuf',prix:39.5,unite:'kg',stock:3,img:'img/filet-boeuf.jpg'},
+  {id:3,nom:'Côte de porc',prix:12.9,unite:'kg',stock:8,img:'img/cote-porc.jpg'},
+  {id:4,nom:'Poulet fermier',prix:11.5,unite:'pièce',stock:5,img:'img/poulet.jpg'},
+  {id:5,nom:'Merguez (les 6)',prix:7.2,unite:'pièce',stock:10,img:'img/merguez.jpg'},
+  {id:6,nom:'Gigot d\'agneau',prix:24.9,unite:'kg',stock:4,img:'img/gigot.jpg'}
 ],resas:[],nextId:7,nextResa:1};
 let db;
 try{db=JSON.parse(localStorage.getItem(K))||defaut}catch(e){db=defaut}
+// Migration v2 : ajoute les photos par défaut aux données déjà enregistrées (une seule fois)
+if(!db.v){db.v=2;db.pieces.forEach(p=>{const d=defaut.pieces.find(x=>x.id===p.id&&x.nom===p.nom);if(d&&!p.img)p.img=d.img})}
 const save=()=>localStorage.setItem(K,JSON.stringify(db));
 save();
 
