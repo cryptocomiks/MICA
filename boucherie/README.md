@@ -1,9 +1,15 @@
-# 🥩 App de réservation — Boucherie
+# 🥩 L'Aile ou la Cuisse — Site & réservations
 
-Un seul fichier (`index.html`), aucune installation. Ouvrez-le dans un navigateur ou publiez le dossier (GitHub Pages : `https://<votre-site>/boucherie/`).
+Site vitrine premium + app de réservation, en un seul fichier (`index.html`), aucune installation. Ouvrez-le dans un navigateur ou publiez le dossier (GitHub Pages : `https://<votre-site>/boucherie/`).
+
+## Le site
+- Hero plein écran, histoire familiale sur 5 générations (frise 1898 → 2020), portraits de l'équipe
+- Animations au défilement, navigation avec section active, menu mobile
+- Contact : appel direct (06 01 22 70 15) et itinéraire Google Maps en un clic
+- Toutes les images (morceaux, équipe, photo d'époque) générées avec Gemini — remplaçables
 
 ## Côté client
-- Voir les morceaux disponibles du jour (prix, stock restant, badges Disponible / Bientôt épuisé / Épuisé)
+- Voir les morceaux disponibles du jour (photo, prix, stock restant, badges Disponible / Bientôt épuisé / Épuisé)
 - Réserver à l'avance : quantité, date de retrait, remarque — le stock se décompte automatiquement
 - Suivi de « Mes réservations » sur son appareil
 

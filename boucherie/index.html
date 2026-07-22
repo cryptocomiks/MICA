@@ -3,61 +3,306 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boucherie — Réservations</title>
+<title>L'Aile ou la Cuisse — Boucherie familiale depuis 1898</title>
+<meta name="description" content="Boucherie artisanale familiale, 5 générations de savoir-faire. Réservez vos morceaux en ligne.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--rouge:#8E2B2B;--rouge2:#6E1F1F;--creme:#FAF6F0;--carte:#fff;--txt:#2B2320;--muted:#8A7B72;--ok:#2E7D4F;--warn:#B26A00;--line:#E8DFD5;--radius:14px}
+:root{
+  --noir:#171210;--noir2:#1E1713;--carte:#251C16;--carte2:#2C221B;
+  --or:#C9A227;--or2:#E0BE55;--creme:#F3EBDD;--muted:#A69885;
+  --rouge:#9E3B32;--ok:#5FA97C;--warn:#D99A3D;--line:rgba(201,162,39,.18);
+  --serif:'Playfair Display',Georgia,serif;--sans:'Jost',system-ui,sans-serif;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--creme);color:var(--txt);min-height:100vh}
-header{background:var(--rouge);color:#fff;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:10}
-header h1{font-size:1.15rem;font-weight:700}
-header small{display:block;font-weight:400;opacity:.85;font-size:.75rem}
-.btn{border:0;border-radius:10px;padding:10px 16px;font-size:.95rem;font-weight:600;cursor:pointer;background:var(--rouge);color:#fff}
-.btn.sec{background:#fff;color:var(--rouge);border:1.5px solid var(--rouge)}
-.btn.ghost{background:rgba(255,255,255,.15);color:#fff}
-.btn.small{padding:6px 10px;font-size:.8rem}
-.btn.ok{background:var(--ok)}.btn.danger{background:#B3261E}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-main{max-width:640px;margin:0 auto;padding:16px;padding-bottom:60px}
-.card{background:var(--carte);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:12px}
-.card h3{font-size:1rem;margin-bottom:2px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.muted{color:var(--muted);font-size:.85rem}
-.prix{font-weight:700;color:var(--rouge);white-space:nowrap}
-.badge{font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
-.badge.dispo{background:#E3F2E9;color:var(--ok)}
-.badge.peu{background:#FFF3E0;color:var(--warn)}
-.badge.epuise{background:#FBE9E7;color:#B3261E}
-.badge.attente{background:#FFF3E0;color:var(--warn)}
-.badge.retiree{background:#E3F2E9;color:var(--ok)}
-.badge.annulee{background:#EEE;color:#777}
-label{display:block;font-size:.82rem;font-weight:600;margin:10px 0 4px}
-input,select{width:100%;padding:10px;border:1.5px solid var(--line);border-radius:10px;font-size:1rem;background:#fff;color:var(--txt)}
-input:focus,select:focus{outline:2px solid var(--rouge);border-color:var(--rouge)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tabs{display:flex;gap:8px;margin-bottom:14px}
+html{scroll-behavior:smooth}
+body{background:var(--noir);color:var(--creme);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif)}
+a{color:inherit}
+img{max-width:100%}
+.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+.surtitre{font-size:.78rem;letter-spacing:.35em;text-transform:uppercase;color:var(--or);font-weight:500}
+.h2{font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:700;margin:8px 0 14px}
+.filet{width:54px;height:2px;background:var(--or);margin:18px 0 26px}
+section{padding:88px 0}
+/* ---- Nav ---- */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:.35s;padding:18px 0}
+nav.solid{background:rgba(23,18,16,.94);backdrop-filter:blur(8px);box-shadow:0 2px 24px rgba(0,0,0,.45);padding:10px 0}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.logo{font-family:var(--serif);font-weight:900;font-size:1.12rem;letter-spacing:.06em;color:var(--creme);text-decoration:none;line-height:1.15}
+.logo em{display:block;font-family:var(--sans);font-style:normal;font-size:.6rem;letter-spacing:.32em;color:var(--or);font-weight:500;text-transform:uppercase}
+.menu{display:flex;gap:26px;list-style:none;align-items:center}
+.menu a{text-decoration:none;font-size:.88rem;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:var(--creme);opacity:.75;transition:.25s;padding-bottom:3px;border-bottom:1.5px solid transparent}
+.menu a:hover{opacity:1}
+.menu a.actif{opacity:1;color:var(--or2);border-bottom-color:var(--or)}
+.btn{display:inline-block;border:0;cursor:pointer;text-decoration:none;text-align:center;font-family:var(--sans);font-weight:500;letter-spacing:.08em;border-radius:2px;transition:.25s;font-size:.9rem;padding:13px 26px;background:var(--or);color:#1d1508}
+.btn:hover{background:var(--or2);transform:translateY(-2px)}
+.btn.ligne{background:transparent;color:var(--creme);border:1px solid rgba(243,235,221,.45)}
+.btn.ligne:hover{border-color:var(--or);color:var(--or2);background:transparent}
+.btn.small{padding:8px 14px;font-size:.78rem}
+.btn.rouge{background:var(--rouge);color:#fff}
+.btn.vert{background:var(--ok);color:#10130f}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+#burger{display:none;background:none;border:0;color:var(--creme);font-size:1.6rem;cursor:pointer}
+/* ---- Hero ---- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 22px 80px}
+.hero::before{content:'';position:absolute;inset:0;background:url('img/hero.jpg') center/cover no-repeat;animation:zoom 22s ease-in-out infinite alternate}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,18,16,.62),rgba(23,18,16,.42) 45%,var(--noir) 96%)}
+@keyframes zoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+.hero>div{position:relative;z-index:2;max-width:800px}
+.hero .surtitre{animation:monte 1s .2s both}
+.hero h1{font-size:clamp(2.6rem,8.5vw,5.2rem);font-weight:900;line-height:1.04;margin:16px 0 10px;animation:monte 1s .45s both}
+.hero h1 span{color:var(--or2);font-style:italic}
+.hero p{font-size:1.08rem;color:#DDD2C0;max-width:520px;margin:0 auto 34px;animation:monte 1s .7s both}
+.hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:monte 1s .9s both}
+@keyframes monte{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.souris{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;color:var(--or);font-size:1.5rem;animation:rebond 1.8s infinite}
+@keyframes rebond{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,10px)}}
+/* ---- Bandeau défilant ---- */
+.bandeau{background:var(--or);color:#231a08;overflow:hidden;padding:13px 0;white-space:nowrap}
+.bandeau div{display:inline-block;animation:defile 26s linear infinite;font-weight:500;letter-spacing:.18em;text-transform:uppercase;font-size:.82rem}
+.bandeau span{margin:0 26px}
+@keyframes defile{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* ---- Reveal au scroll ---- */
+.reveal{opacity:0;transform:translateY(38px);transition:opacity .8s ease,transform .8s ease}
+.reveal.vis{opacity:1;transform:none}
+.reveal.g{transform:translateX(-44px)}.reveal.d{transform:translateX(44px)}
+.reveal.g.vis,.reveal.d.vis{transform:none}
+/* ---- Histoire ---- */
+#histoire{background:var(--noir2)}
+.histoire-grille{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center}
+.cadre{position:relative}
+.cadre img{display:block;border-radius:3px;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.cadre::after{content:'';position:absolute;inset:-14px;border:1px solid var(--line);border-radius:3px;pointer-events:none}
+.chiffres{display:flex;gap:34px;margin-top:34px;flex-wrap:wrap}
+.chiffres b{display:block;font-family:var(--serif);font-size:2.1rem;color:var(--or2)}
+.chiffres small{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.timeline{margin-top:66px;position:relative;padding-left:26px}
+.timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:1.5px;background:linear-gradient(var(--or),rgba(201,162,39,.1))}
+.jalon{position:relative;padding:0 0 34px 24px}
+.jalon::before{content:'';position:absolute;left:-26px;top:8px;width:11px;height:11px;border-radius:50%;background:var(--noir2);border:2px solid var(--or)}
+.jalon b{font-family:var(--serif);color:var(--or2);font-size:1.05rem;letter-spacing:.04em}
+.jalon h3{font-size:1.15rem;margin:2px 0 4px}
+.jalon p{color:var(--muted);font-size:.95rem;max-width:640px}
+/* ---- Équipe ---- */
+.equipe-grille{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:14px}
+.membre{background:var(--carte);border:1px solid var(--line);border-radius:3px;overflow:hidden;transition:.35s}
+.membre:hover{transform:translateY(-8px);box-shadow:0 22px 44px rgba(0,0,0,.45)}
+.membre img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;filter:saturate(.92)}
+.membre div{padding:18px 20px 22px}
+.membre h3{font-size:1.2rem}
+.membre small{color:var(--or);letter-spacing:.16em;text-transform:uppercase;font-size:.72rem;font-weight:500}
+.membre p{color:var(--muted);font-size:.9rem;margin-top:8px}
+/* ---- Produits ---- */
+#morceaux{background:var(--noir2)}
+.prod-grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-top:10px}
+.prod{background:var(--carte);border:1px solid var(--line);border-radius:3px;overflow:hidden;display:flex;flex-direction:column;transition:.35s}
+.prod:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.45)}
+.prod .ph{position:relative;height:190px;background:var(--carte2)}
+.prod .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:.6s}
+.prod:hover .ph img{transform:scale(1.06)}
+.prod .ph .badge{position:absolute;top:12px;left:12px}
+.prod .corps{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.prod h3{font-size:1.25rem}
+.prod .ligne-prix{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.prix{font-family:var(--serif);font-size:1.25rem;color:var(--or2);white-space:nowrap}
+.prix small{font-family:var(--sans);color:var(--muted);font-size:.78rem}
+.reste{color:var(--muted);font-size:.85rem}
+.prod .btn{margin-top:auto}
+.badge{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:2px;white-space:nowrap}
+.badge.dispo{background:rgba(95,169,124,.16);color:var(--ok);border:1px solid rgba(95,169,124,.4)}
+.badge.peu{background:rgba(217,154,61,.14);color:var(--warn);border:1px solid rgba(217,154,61,.4)}
+.badge.epuise{background:rgba(158,59,50,.18);color:#E08C83;border:1px solid rgba(158,59,50,.5)}
+.badge.attente{background:rgba(217,154,61,.14);color:var(--warn)}
+.badge.retiree{background:rgba(95,169,124,.16);color:var(--ok)}
+.badge.annulee{background:rgba(255,255,255,.07);color:var(--muted)}
+.vide{text-align:center;color:var(--muted);padding:44px 10px;border:1px dashed var(--line);border-radius:3px}
+.mes-resas{background:var(--carte);border:1px solid var(--line);border-radius:3px;padding:20px 22px;margin-bottom:30px}
+.mes-resas h3{color:var(--or2);margin-bottom:6px}
+.epuises{margin-top:40px}
+.epuises h3{color:var(--muted);font-size:1rem;margin-bottom:14px;letter-spacing:.1em;text-transform:uppercase;font-family:var(--sans);font-weight:400}
+.epuises ul{list-style:none;display:flex;flex-wrap:wrap;gap:10px}
+.epuises li{border:1px solid var(--line);color:var(--muted);padding:7px 14px;border-radius:2px;font-size:.88rem;text-decoration:line-through}
+/* ---- Contact ---- */
+.contact-grille{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:14px}
+.carte-c{display:block;background:var(--carte);border:1px solid var(--line);border-radius:3px;padding:30px;text-decoration:none;transition:.3s;position:relative;overflow:hidden}
+.carte-c:hover{transform:translateY(-6px);border-color:var(--or);box-shadow:0 20px 40px rgba(0,0,0,.4)}
+.carte-c .ico{font-size:2rem;margin-bottom:12px;display:block}
+.carte-c h3{font-size:1.3rem;margin-bottom:6px}
+.carte-c p{color:var(--muted);font-size:.93rem}
+.carte-c b{display:block;margin-top:14px;color:var(--or2);letter-spacing:.06em;font-weight:500}
+.horaires{margin-top:40px;border-top:1px solid var(--line);padding-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;text-align:center}
+.horaires b{display:block;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--or);font-weight:500;margin-bottom:4px}
+.horaires span{color:var(--muted);font-size:.88rem}
+/* ---- Footer ---- */
+footer{border-top:1px solid var(--line);padding:34px 0 40px;text-align:center;color:var(--muted);font-size:.85rem}
+footer .logo{font-size:1rem;justify-content:center;display:inline-block;margin-bottom:8px}
+#lienAdmin{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;text-decoration:underline;margin-top:10px;font-family:var(--sans)}
+#lienAdmin:hover{color:var(--or)}
+/* ---- Admin ---- */
+body.admin .site{display:none}
+#zoneAdmin{display:none;min-height:100vh;padding:96px 0 70px}
+body.admin #zoneAdmin{display:block}
+.tabs{display:flex;gap:10px;margin:18px 0 22px}
 .tabs .btn{flex:1}
-.tabs .btn.off{background:#fff;color:var(--muted);border:1.5px solid var(--line)}
-.vide{text-align:center;color:var(--muted);padding:30px 10px}
-dialog{border:0;border-radius:var(--radius);padding:18px;max-width:420px;width:92%;margin:auto}
-dialog::backdrop{background:rgba(0,0,0,.45)}
-.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;padding:10px 18px;border-radius:99px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
-.toast.on{opacity:1}
+.tabs .btn.off{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.carte-a{background:var(--carte);border:1px solid var(--line);border-radius:3px;padding:16px 18px;margin-bottom:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.muted{color:var(--muted);font-size:.88rem}
 .stock-ctrl{display:flex;align-items:center;gap:8px}
-.stock-ctrl b{min-width:52px;text-align:center}
-.photo{width:100%;height:150px;object-fit:cover;border-radius:10px;margin-bottom:10px;display:block;background:#EFE7DC}
-.photo.mini{width:64px;height:64px;margin:0;flex-shrink:0}
-.ph{display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:#C9B8A5}
+.stock-ctrl b{min-width:56px;text-align:center;font-size:1.02rem}
+.mini{width:60px;height:60px;object-fit:cover;border-radius:3px;flex-shrink:0;background:var(--carte2)}
+.mini.ph{display:flex;align-items:center;justify-content:center;font-size:1.6rem}
+/* ---- Dialogs / formulaires ---- */
+dialog{border:1px solid var(--line);border-radius:4px;padding:26px;max-width:440px;width:92%;margin:auto;background:var(--noir2);color:var(--creme)}
+dialog::backdrop{background:rgba(10,7,5,.7);backdrop-filter:blur(3px)}
+dialog h3{font-size:1.35rem;margin-bottom:4px}
+label{display:block;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--or);margin:14px 0 6px}
+input,select{width:100%;padding:11px 12px;border:1px solid rgba(243,235,221,.22);border-radius:2px;font-size:1rem;background:var(--carte);color:var(--creme);font-family:var(--sans)}
+input:focus,select:focus{outline:none;border-color:var(--or)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .imgbtns{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
-#pApercu{width:100%;height:120px;object-fit:cover;border-radius:10px;margin-top:8px;background:#EFE7DC}
-@media(max-width:420px){.grid2{grid-template-columns:1fr}}
+#pApercu{width:100%;height:130px;object-fit:cover;border-radius:3px;margin-top:10px;background:var(--carte)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--or);color:#1d1508;padding:12px 22px;border-radius:2px;font-size:.92rem;font-weight:500;opacity:0;transition:.3s;pointer-events:none;z-index:99;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.toast.on{opacity:1}
+/* ---- Responsive ---- */
+@media(max-width:820px){
+  .histoire-grille,.contact-grille{grid-template-columns:1fr}
+  .equipe-grille{grid-template-columns:1fr;max-width:380px;margin-inline:auto}
+  .menu{position:fixed;inset:0 0 auto 0;top:0;background:rgba(23,18,16,.98);flex-direction:column;padding:86px 22px 30px;gap:20px;transform:translateY(-110%);transition:.35s;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+  .menu.ouvert{transform:none}
+  #burger{display:block;z-index:60}
+  section{padding:66px 0}
+  .grid2{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
-<header>
-  <h1 id="titre">🥩 Boucherie<small>Réservez vos morceaux</small></h1>
-  <button class="btn ghost small" id="btnMode">Espace boucher</button>
+
+<nav id="nav">
+  <div class="wrap">
+    <a class="logo" href="#accueil">L'AILE OU LA CUISSE<em>Boucherie familiale · 1898</em></a>
+    <ul class="menu" id="menu">
+      <li><a href="#histoire">Notre histoire</a></li>
+      <li><a href="#equipe">L'équipe</a></li>
+      <li><a href="#morceaux">Les morceaux</a></li>
+      <li><a href="#contact">Nous trouver</a></li>
+      <li><a class="btn small" href="tel:0601227015">☎ 06 01 22 70 15</a></li>
+    </ul>
+    <button id="burger" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<div class="site">
+<header class="hero" id="accueil">
+  <div>
+    <span class="surtitre">Maison Dubois — depuis 1898</span>
+    <h1>L'Aile <span>ou</span> la Cuisse</h1>
+    <p>Cinq générations de bouchers passionnés. Des viandes d'exception, sélectionnées, maturées et préparées dans le respect de la tradition française.</p>
+    <div class="ctas">
+      <a class="btn" href="#morceaux">Découvrir les morceaux du jour</a>
+      <a class="btn ligne" href="tel:0601227015">Réserver par téléphone</a>
+    </div>
+  </div>
+  <a class="souris" href="#histoire" aria-label="Défiler">↓</a>
 </header>
-<main id="app"></main>
+
+<div class="bandeau" aria-hidden="true">
+  <div id="bandeauTxt"></div>
+</div>
+
+<section id="histoire">
+  <div class="wrap">
+    <div class="histoire-grille">
+      <div class="cadre reveal g"><img src="img/vintage.jpg" alt="La boucherie Dubois en 1912" loading="lazy"></div>
+      <div class="reveal d">
+        <span class="surtitre">Notre histoire</span>
+        <h2 class="h2">Une passion transmise<br>de père en fils… et en fille</h2>
+        <div class="filet"></div>
+        <p>Tout commence en 1898, quand Marcel Dubois ouvre sa première boucherie. Plus d'un siècle plus tard, la même exigence anime la maison : des bêtes choisies une à une chez nos éleveurs partenaires, une maturation maîtrisée, et ce geste précis qui ne s'apprend que d'une génération à l'autre.</p>
+        <div class="chiffres">
+          <div><b id="c1">128</b><small>ans de métier</small></div>
+          <div><b id="c2">5</b><small>générations</small></div>
+          <div><b id="c3">100%</b><small>artisanal</small></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="jalon reveal"><b>1898</b><h3>Marcel Dubois fonde la maison</h3><p>Une petite échoppe, une grande idée : ne vendre que ce qu'on servirait à sa propre table.</p></div>
+      <div class="jalon reveal"><b>1931</b><h3>Henri, la deuxième génération</h3><p>Henri développe la charcuterie maison et fait de la boutique une adresse incontournable du quartier.</p></div>
+      <div class="jalon reveal"><b>1968</b><h3>Georges modernise la boutique</h3><p>Nouvelles vitrines réfrigérées, mêmes valeurs : Georges noue des partenariats directs avec les éleveurs de la région.</p></div>
+      <div class="jalon reveal"><b>1995</b><h3>Alain, maître artisan boucher</h3><p>Meilleur ouvrier de son cœur de métier, Alain introduit la maturation longue et rebaptise la maison « L'Aile ou la Cuisse ».</p></div>
+      <div class="jalon reveal"><b>2020</b><h3>Camille, la cinquième génération</h3><p>Camille reprend le flambeau aux côtés de son père et ouvre la maison au numérique — dont ce service de réservation.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="equipe">
+  <div class="wrap">
+    <span class="surtitre reveal">Ceux qui font la maison</span>
+    <h2 class="h2 reveal">L'équipe à votre service</h2>
+    <div class="filet reveal"></div>
+    <div class="equipe-grille">
+      <article class="membre reveal"><img src="img/patron.jpg" alt="Alain Dubois" loading="lazy"><div><small>Maître artisan boucher · 4ᵉ génération</small><h3>Alain Dubois</h3><p>45 ans de métier, un œil infaillible pour choisir les bêtes et une passion intacte pour la maturation.</p></div></article>
+      <article class="membre reveal"><img src="img/fille.jpg" alt="Camille Dubois" loading="lazy"><div><small>Bouchère · 5ᵉ génération</small><h3>Camille Dubois</h3><p>Formée par son père, elle perpétue le geste familial et imagine la boucherie de demain.</p></div></article>
+      <article class="membre reveal"><img src="img/apprenti.jpg" alt="Théo" loading="lazy"><div><small>Apprenti boucher</small><h3>Théo</h3><p>La relève ! Théo apprend le métier avec le sourire et prépare vos commandes aux petits oignons.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section id="morceaux">
+  <div class="wrap">
+    <span class="surtitre reveal">La vitrine du jour</span>
+    <h2 class="h2 reveal">Les morceaux disponibles</h2>
+    <div class="filet reveal"></div>
+    <p class="reveal" style="max-width:560px;color:var(--muted);margin-bottom:34px">Le stock est mis à jour chaque matin par nos soins. Réservez en ligne, réglez et retirez en boutique — vos morceaux vous attendent.</p>
+    <div id="listeProduits"></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <span class="surtitre reveal">Nous trouver</span>
+    <h2 class="h2 reveal">Passez nous voir, ou appelez-nous</h2>
+    <div class="filet reveal"></div>
+    <div class="contact-grille">
+      <a class="carte-c reveal g" href="tel:0601227015">
+        <span class="ico">☎️</span>
+        <h3>Réserver par téléphone</h3>
+        <p>Un doute sur une pièce, une envie particulière, une commande pour un événement ? Appelez-nous, on s'occupe de tout.</p>
+        <b>06 01 22 70 15 →</b>
+      </a>
+      <a class="carte-c reveal d" href="https://maps.app.goo.gl/4rFeTA7kJvqh86666?g_st=ic" target="_blank" rel="noopener">
+        <span class="ico">📍</span>
+        <h3>Venir en boutique</h3>
+        <p>Retrouvez-nous derrière notre belle vitrine. Cliquez pour ouvrir l'itinéraire dans Google Maps.</p>
+        <b>Ouvrir dans Google Maps →</b>
+      </a>
+    </div>
+    <div class="horaires reveal">
+      <div><b>Mar – Ven</b><span>8h30 – 13h · 15h30 – 19h30</span></div>
+      <div><b>Samedi</b><span>8h – 19h30 non-stop</span></div>
+      <div><b>Dimanche</b><span>8h – 13h</span></div>
+      <div><b>Lundi</b><span>Fermé</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="logo">L'AILE OU LA CUISSE</span>
+    <p>Boucherie familiale depuis 1898 · Maison Dubois · <a href="tel:0601227015">06 01 22 70 15</a></p>
+    <button id="lienAdmin">Espace boucher</button>
+  </div>
+</footer>
+</div><!-- /site -->
+
+<div id="zoneAdmin"><div class="wrap">
+  <span class="surtitre">Espace boucher</span>
+  <h2 class="h2">Gestion de la boutique</h2>
+  <div id="app"></div>
+</div></div>
 
 <dialog id="dlgResa">
   <h3>Réserver : <span id="dlgNom"></span></h3>
@@ -69,10 +314,10 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
       <div><label>Quantité *</label><input id="rQte" type="number" min="0.1" step="0.1" required></div>
       <div><label>Retrait le *</label><input id="rDate" type="date" required></div>
     </div>
-    <label>Remarque (facultatif)</label><input id="rNote" maxlength="120" placeholder="Ex : coupé en tranches">
-    <div class="row" style="margin-top:14px">
-      <button type="button" class="btn sec" onclick="dlgResa.close()">Annuler</button>
-      <button type="submit" class="btn">Confirmer</button>
+    <label>Remarque</label><input id="rNote" maxlength="120" placeholder="Ex : coupé en tranches">
+    <div class="row" style="margin-top:20px">
+      <button type="button" class="btn ligne small" onclick="dlgResa.close()">Annuler</button>
+      <button type="submit" class="btn">Confirmer la réservation</button>
     </div>
   </form>
 </dialog>
@@ -88,15 +333,15 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
     <label>Stock du jour *</label><input id="pStock" type="number" min="0" step="0.1" required>
     <label>Photo</label>
     <div class="imgbtns">
-      <button type="button" class="btn sec small" onclick="pCam.click()">📷 Prendre une photo</button>
-      <button type="button" class="btn sec small" onclick="pFichier.click()">🖼️ Choisir une image</button>
-      <button type="button" class="btn danger small" id="pImgSuppr" onclick="supprImage()" hidden>Retirer</button>
+      <button type="button" class="btn ligne small" onclick="pCam.click()">📷 Prendre une photo</button>
+      <button type="button" class="btn ligne small" onclick="pFichier.click()">🖼️ Choisir une image</button>
+      <button type="button" class="btn rouge small" id="pImgSuppr" onclick="supprImage()" hidden>Retirer</button>
     </div>
     <input type="file" id="pCam" accept="image/*" capture="environment" hidden>
     <input type="file" id="pFichier" accept="image/*" hidden>
     <img id="pApercu" alt="" hidden>
-    <div class="row" style="margin-top:14px">
-      <button type="button" class="btn sec" onclick="dlgPiece.close()">Annuler</button>
+    <div class="row" style="margin-top:20px">
+      <button type="button" class="btn ligne small" onclick="dlgPiece.close()">Annuler</button>
       <button type="submit" class="btn">Enregistrer</button>
     </div>
   </form>
@@ -118,23 +363,20 @@ const defaut={pin:'1234',v:2,pieces:[
 ],resas:[],nextId:7,nextResa:1};
 let db;
 try{db=JSON.parse(localStorage.getItem(K))||defaut}catch(e){db=defaut}
-// Migration v2 : ajoute les photos par défaut aux données déjà enregistrées (une seule fois)
 if(!db.v){db.v=2;db.pieces.forEach(p=>{const d=defaut.pieces.find(x=>x.id===p.id&&x.nom===p.nom);if(d&&!p.img)p.img=d.img})}
 const save=()=>localStorage.setItem(K,JSON.stringify(db));
 save();
 
 let admin=false;
 const $=id=>document.getElementById(id);
-const app=$('app');
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const eur=n=>n.toFixed(2).replace('.',',')+' €';
 const fmtQ=(q,u)=>(u==='kg'?q+' kg':q+(q>1?' pièces':' pièce'));
 const fmtDate=d=>new Date(d+'T00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
-function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500)}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2600)}
 const badgeStock=p=>p.stock<=0?'<span class="badge epuise">Épuisé</span>':p.stock<=2?'<span class="badge peu">Bientôt épuisé</span>':'<span class="badge dispo">Disponible</span>';
-const photoHTML=(p,mini)=>p.img?`<img class="photo${mini?' mini':''}" src="${p.img}" alt="${esc(p.nom)}" loading="lazy">`:(mini?`<div class="photo mini ph">🥩</div>`:'');
 
-// Redimensionne + compresse une photo (max 720px, JPEG) avant stockage
+// Redimensionne + compresse une photo avant stockage
 function lireImage(fichier,cb){
   const img=new Image();
   img.onload=()=>{
@@ -149,33 +391,40 @@ function lireImage(fichier,cb){
   img.src=URL.createObjectURL(fichier);
 }
 
-// ---------- Vue client ----------
+// ---------- Vitrine (produits) ----------
 function vueClient(){
   const dispo=db.pieces.filter(p=>p.stock>0);
   const monTel=localStorage.getItem(K+'_tel')||'';
   const mesResas=db.resas.filter(r=>r.tel===monTel&&r.statut==='attente');
   let h='';
   if(mesResas.length){
-    h+='<div class="card"><h3>📋 Mes réservations</h3>';
-    mesResas.forEach(r=>{const p=db.pieces.find(x=>x.id===r.pieceId);
-      h+=`<div class="row" style="margin-top:8px"><div><b>${esc(r.pieceNom)}</b> — ${fmtQ(r.qte,r.unite)}<div class="muted">Retrait ${fmtDate(r.date)}</div></div><span class="badge attente">En attente</span></div>`});
+    h+='<div class="mes-resas"><h3>📋 Mes réservations</h3>';
+    mesResas.forEach(r=>{h+=`<div class="row" style="margin-top:8px"><div><b>${esc(r.pieceNom)}</b> — ${fmtQ(r.qte,r.unite)}<div class="muted">Retrait ${fmtDate(r.date)}</div></div><span class="badge attente">En attente</span></div>`});
     h+='</div>';
   }
-  h+='<h2 style="font-size:1.05rem;margin:6px 0 10px">Morceaux disponibles aujourd\'hui</h2>';
-  if(!dispo.length)h+='<div class="vide">Aucun morceau disponible pour le moment.<br>Revenez plus tard !</div>';
-  dispo.forEach(p=>{
-    h+=`<div class="card">${photoHTML(p)}<div class="row">
-      <div><h3>${esc(p.nom)}</h3><span class="muted">Reste : ${fmtQ(p.stock,p.unite)}</span> ${badgeStock(p)}</div>
-      <div style="text-align:right"><div class="prix">${eur(p.prix)} <span class="muted">/ ${p.unite}</span></div>
-      <button class="btn small" style="margin-top:6px" onclick="ouvrirResa(${p.id})">Réserver</button></div>
-    </div></div>`;
-  });
+  if(!dispo.length)h+='<div class="vide">La vitrine est vide pour le moment — revenez demain matin, ou appelez-nous au <a href="tel:0601227015">06 01 22 70 15</a>.</div>';
+  else{
+    h+='<div class="prod-grille">';
+    dispo.forEach(p=>{
+      h+=`<article class="prod reveal">
+        <div class="ph">${p.img?`<img src="${p.img}" alt="${esc(p.nom)}" loading="lazy">`:''}${badgeStock(p)}</div>
+        <div class="corps">
+          <div class="ligne-prix"><h3>${esc(p.nom)}</h3><span class="prix">${eur(p.prix)} <small>/ ${p.unite}</small></span></div>
+          <span class="reste">Il reste ${fmtQ(p.stock,p.unite)}</span>
+          <button class="btn" onclick="ouvrirResa(${p.id})">Réserver ce morceau</button>
+        </div>
+      </article>`;
+    });
+    h+='</div>';
+  }
   const epuise=db.pieces.filter(p=>p.stock<=0);
   if(epuise.length){
-    h+='<h2 style="font-size:.95rem;margin:14px 0 8px;color:var(--muted)">Épuisé aujourd\'hui</h2>';
-    epuise.forEach(p=>h+=`<div class="card" style="opacity:.55"><div class="row"><h3>${esc(p.nom)}</h3><span class="badge epuise">Épuisé</span></div></div>`);
+    h+='<div class="epuises"><h3>Déjà partis aujourd\'hui</h3><ul>';
+    epuise.forEach(p=>h+=`<li>${esc(p.nom)}</li>`);
+    h+='</ul></div>';
   }
-  app.innerHTML=h;
+  $('listeProduits').innerHTML=h;
+  observeReveals($('listeProduits'));
 }
 
 let pieceCourante=null;
@@ -189,9 +438,8 @@ window.ouvrirResa=function(id){
   $('rNom').value=localStorage.getItem(K+'_nom')||'';
   $('rTel').value=localStorage.getItem(K+'_tel')||'';
   const d=new Date();d.setDate(d.getDate()+1);
-  const iso=d.toISOString().slice(0,10);
   $('rDate').min=new Date().toISOString().slice(0,10);
-  $('rDate').value=iso;
+  $('rDate').value=d.toISOString().slice(0,10);
   $('rNote').value='';
   dlgResa.showModal();
 };
@@ -207,11 +455,12 @@ $('formResa').addEventListener('submit',e=>{
   localStorage.setItem(K+'_nom',$('rNom').value.trim());
   localStorage.setItem(K+'_tel',$('rTel').value.trim());
   save();dlgResa.close();render();
-  toast('✅ Réservation enregistrée !');
+  toast('✅ Réservation enregistrée — à très vite !');
 });
 
-// ---------- Vue admin ----------
+// ---------- Espace boucher ----------
 let ongletAdmin='stock';
+const photoMini=p=>p.img?`<img class="mini" src="${p.img}" alt="">`:'<div class="mini ph">🥩</div>';
 function vueAdmin(){
   const attente=db.resas.filter(r=>r.statut==='attente').length;
   let h=`<div class="tabs">
@@ -219,21 +468,21 @@ function vueAdmin(){
     <button class="btn ${ongletAdmin==='resas'?'':'off'}" onclick="setOnglet('resas')">📋 Réservations${attente?' ('+attente+')':''}</button>
   </div>`;
   if(ongletAdmin==='stock'){
-    h+=`<div class="row" style="margin-bottom:10px"><span class="muted">${db.pieces.length} pièce(s)</span><button class="btn small" onclick="ouvrirPiece()">+ Ajouter une pièce</button></div>`;
+    h+=`<div class="row" style="margin-bottom:14px"><span class="muted">${db.pieces.length} pièce(s) en vitrine</span><button class="btn small" onclick="ouvrirPiece()">+ Ajouter une pièce</button></div>`;
     if(!db.pieces.length)h+='<div class="vide">Aucune pièce. Ajoutez-en une !</div>';
     db.pieces.forEach(p=>{
-      h+=`<div class="card"><div class="row">
-        <div style="display:flex;gap:10px;align-items:center">${photoHTML(p,true)}<div><h3>${esc(p.nom)}</h3><span class="muted">${eur(p.prix)} / ${p.unite}</span> ${badgeStock(p)}</div></div>
+      h+=`<div class="carte-a"><div class="row">
+        <div style="display:flex;gap:12px;align-items:center">${photoMini(p)}<div><h3 style="font-size:1.05rem">${esc(p.nom)}</h3><span class="muted">${eur(p.prix)} / ${p.unite}</span> ${badgeStock(p)}</div></div>
         <div class="stock-ctrl">
-          <button class="btn sec small" onclick="majStock(${p.id},-1)">−</button>
+          <button class="btn ligne small" onclick="majStock(${p.id},-1)">−</button>
           <b>${p.stock}${p.unite==='kg'?' kg':''}</b>
-          <button class="btn sec small" onclick="majStock(${p.id},1)">+</button>
+          <button class="btn ligne small" onclick="majStock(${p.id},1)">+</button>
         </div>
       </div>
-      <div class="row" style="margin-top:10px">
-        <button class="btn small sec" onclick="ouvrirPiece(${p.id})">Modifier</button>
-        <span><button class="btn small sec" onclick="videStock(${p.id})">Épuisé</button>
-        <button class="btn small danger" onclick="supprPiece(${p.id})">Suppr.</button></span>
+      <div class="row" style="margin-top:12px">
+        <button class="btn ligne small" onclick="ouvrirPiece(${p.id})">Modifier</button>
+        <span style="display:flex;gap:8px"><button class="btn ligne small" onclick="videStock(${p.id})">Épuisé</button>
+        <button class="btn rouge small" onclick="supprPiece(${p.id})">Suppr.</button></span>
       </div></div>`;
     });
   }else{
@@ -242,21 +491,23 @@ function vueAdmin(){
     if(!db.resas.length)h+='<div class="vide">Aucune réservation pour le moment.</div>';
     const carte=r=>{
       const lib={attente:'En attente',retiree:'Retirée',annulee:'Annulée'}[r.statut];
-      return `<div class="card"${r.statut!=='attente'?' style="opacity:.6"':''}><div class="row">
-        <div><h3>${esc(r.pieceNom)} — ${fmtQ(r.qte,r.unite)}</h3>
+      return `<div class="carte-a"${r.statut!=='attente'?' style="opacity:.55"':''}><div class="row">
+        <div><h3 style="font-size:1.05rem">${esc(r.pieceNom)} — ${fmtQ(r.qte,r.unite)}</h3>
         <div class="muted">👤 ${esc(r.nom)} · 📞 <a href="tel:${esc(r.tel)}">${esc(r.tel)}</a></div>
         <div class="muted">Retrait ${fmtDate(r.date)}${r.note?' · «&nbsp;'+esc(r.note)+'&nbsp;»':''}</div></div>
         <span class="badge ${r.statut}">${lib}</span></div>
-        ${r.statut==='attente'?`<div class="row" style="margin-top:10px">
-          <button class="btn small ok" onclick="statutResa(${r.id},'retiree')">✔ Retirée</button>
-          <button class="btn small danger" onclick="statutResa(${r.id},'annulee')">Annuler + remettre en stock</button>
+        ${r.statut==='attente'?`<div class="row" style="margin-top:12px">
+          <button class="btn vert small" onclick="statutResa(${r.id},'retiree')">✔ Retirée</button>
+          <button class="btn rouge small" onclick="statutResa(${r.id},'annulee')">Annuler + remettre en stock</button>
         </div>`:''}</div>`;
     };
     actives.forEach(r=>h+=carte(r));
-    if(passees.length){h+='<h2 style="font-size:.95rem;margin:14px 0 8px;color:var(--muted)">Historique</h2>';passees.slice(0,20).forEach(r=>h+=carte(r))}
+    if(passees.length){h+='<h3 style="font-size:.9rem;margin:20px 0 10px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-family:var(--sans)">Historique</h3>';passees.slice(0,20).forEach(r=>h+=carte(r))}
   }
-  h+=`<div style="text-align:center;margin-top:20px"><button class="btn sec small" onclick="changerPin()">🔑 Changer le code</button></div>`;
-  app.innerHTML=h;
+  h+=`<div style="text-align:center;margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <button class="btn ligne small" onclick="changerPin()">🔑 Changer le code</button>
+    <button class="btn small" onclick="quitterAdmin()">← Retour au site</button></div>`;
+  $('app').innerHTML=h;
 }
 window.setOnglet=o=>{ongletAdmin=o;render()};
 window.majStock=(id,d)=>{const p=db.pieces.find(x=>x.id===id);if(!p)return;
@@ -272,9 +523,10 @@ window.changerPin=()=>{const a=prompt('Code actuel :');if(a===null)return;
   if(a!==db.pin){toast('Code incorrect');return}
   const n=prompt('Nouveau code (4 chiffres min.) :');
   if(n&&n.length>=4){db.pin=n;save();toast('Code modifié ✅')}};
+window.quitterAdmin=()=>{admin=false;render();window.scrollTo({top:0})};
 
 // Pièce : ajout / édition
-let pieceEdit=null,imgEnCours=null; // imgEnCours : null = inchangée, '' = retirée, sinon dataURL
+let pieceEdit=null,imgEnCours=null;
 function majApercu(src){
   $('pApercu').hidden=!src;if(src)$('pApercu').src=src;
   $('pImgSuppr').hidden=!src;
@@ -307,26 +559,66 @@ $('formPiece').addEventListener('submit',e=>{
   if(pieceEdit){delete pieceEdit.img;Object.assign(pieceEdit,d)}
   else db.pieces.push(Object.assign({id:db.nextId++},d));
   let msg='Enregistré ✅';
-  try{save()}catch(err){ // quota localStorage dépassé
+  try{save()}catch(err){
     delete d.img;if(pieceEdit)delete pieceEdit.img;save();
     msg='⚠️ Mémoire pleine : enregistré sans photo';
   }
   dlgPiece.close();render();toast(msg);
 });
 
-// ---------- Bascule client / admin ----------
-$('btnMode').addEventListener('click',()=>{
-  if(admin){admin=false;render();return}
+// ---------- Bascule client / boucher ----------
+$('lienAdmin').addEventListener('click',()=>{
   const c=prompt('Code boucher :');
-  if(c===db.pin){admin=true;render()}
+  if(c===db.pin){admin=true;render();window.scrollTo({top:0})}
   else if(c!==null)toast('Code incorrect');
 });
 function render(){
-  $('btnMode').textContent=admin?'← Vue client':'Espace boucher';
-  $('titre').innerHTML=admin?'🔪 Espace boucher<small>Gestion stock &amp; réservations</small>':'🥩 Boucherie<small>Réservez vos morceaux</small>';
-  admin?vueAdmin():vueClient();
+  document.body.classList.toggle('admin',admin);
+  if(admin)vueAdmin();else vueClient();
 }
+
+// ---------- Animations & navigation ----------
+const bandeau=['Bœuf maturé','Agneau de lait','Volailles Label Rouge','Charcuterie maison','Conseils de cuisson','Réservation en ligne'];
+$('bandeauTxt').innerHTML=(bandeau.map(t=>`<span>◆ ${t}</span>`).join('')).repeat(2);
+
+let obs;
+function observeReveals(racine){
+  (racine||document).querySelectorAll('.reveal:not(.vis)').forEach(el=>obs.observe(el));
+}
+obs=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('vis');obs.unobserve(en.target)}});
+},{threshold:.12});
+
+// Nav : fond au scroll + lien actif
+const nav=$('nav');
+const liens=[...document.querySelectorAll('.menu a[href^="#"]')];
+const sections=liens.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const obsNav=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      liens.forEach(a=>a.classList.toggle('actif',a.getAttribute('href')==='#'+en.target.id));
+    }
+  });
+},{rootMargin:'-40% 0px -55% 0px'});
+sections.forEach(s=>obsNav.observe(s));
+addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>40),{passive:true});
+
+// Menu mobile
+$('burger').addEventListener('click',()=>$('menu').classList.toggle('ouvert'));
+document.querySelectorAll('.menu a').forEach(a=>a.addEventListener('click',()=>$('menu').classList.remove('ouvert')));
+
+// Compteur animé "128 ans"
+const obsC=new IntersectionObserver(en=>{
+  if(en[0].isIntersecting){
+    obsC.disconnect();
+    const cible=new Date().getFullYear()-1898;let v=0;
+    const t=setInterval(()=>{v+=3;if(v>=cible){v=cible;clearInterval(t)}$('c1').textContent=v},28);
+  }
+},{threshold:.4});
+obsC.observe($('c1'));
+
 render();
+observeReveals();
 </script>
 </body>
 </html>
